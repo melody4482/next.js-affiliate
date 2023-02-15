@@ -1,0 +1,20 @@
+body {
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+      'Arial', sans-serif;
+    margin: 0 auto;
+    background: rgb(23, 28, 36);
+	height: 100vh;
+    color: #fff;
+	/* background: rgb(61,61,64); */
+	background: linear-gradient(0deg, rgba(9,9,33,1) 0%, rgba(5,5,5,1) 100%);
+}
+
+* {
+	user-select: none;
+}
+
+.next-link {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
