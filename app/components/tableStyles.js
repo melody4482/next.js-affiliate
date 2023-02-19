@@ -1,26 +1,26 @@
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 import {
-    TableCell, 
+    TableCell,
     TableContainer,
     tableCellClasses,
-    TablePagination
-} from '@mui/material';
+    TablePagination,
+} from '@mui/material'
 
 export const StyledTableContainer = styled(TableContainer)(() => ({
     [`&`]: {
-        backgroundColor: '#1d1d1f', 
-        padding: '0 10px', 
+        backgroundColor: '#1d1d1f',
+        padding: '0 10px',
         borderRadius: '3px',
-        border: '0.5px solid #2B2A2F'
-    }
-}));
+        border: '0.5px solid #2B2A2F',
+    },
+}))
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         color: 'rgba(255, 255, 255, 0.5)',
         border: 'none',
         cursor: 'pointer',
-        borderBottom: '0.5px solid #2B2A2F'
+        borderBottom: '0.5px solid #2B2A2F',
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
@@ -28,10 +28,10 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
         backgroundColor: 'transparent',
         color: theme.palette.common.white,
     },
-}));
+}))
 
 export const StyledTablePagination = styled(TablePagination)(() => ({
     [`& *`]: {
-        color: '#fff'
-    }
-}));
+        color: '#fff',
+    },
+}))
