@@ -78,13 +78,13 @@ export const getPlug = async (startDate, endDate) => {
  */
 export const getTiktok = async (startDate, endDate) => {
     /**
-     * @method POST
+     * @method GET
      * @desc Get Tiktok data with JSON type
      */
     await fetch(
-        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=7145102062467006466&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=[%22adgroup_id%22]&metrics=[%22adgroup_name%22,%22spend%22]&page_size=50&start_date=${startDate}&end_date=${endDate}`,
+        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=7145102062467006466&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=50&start_date=${startDate}&end_date=${endDate}`,
         {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Access-Token': '70f21646e0a7da20e90acaf96b939a4c49d8fc59',
             },

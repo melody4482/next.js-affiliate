@@ -29,7 +29,7 @@ export default function MediaList(props) {
             }),
             selected: key
         })
-        props.onchange(key)
+        props.onchange('mediaSources', key)
     }
 
     return (

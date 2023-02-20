@@ -6,6 +6,8 @@ import { getInfuse, getPlug, getTiktok } from '../app/api/dashboard'
 import BasicDatePicker from '../app/components/DatePicker'
 import MediaList from '../app/components/ad-manage/MediaList'
 import isEmpty from 'is-empty'
+import AdSetList from '../app/components/ad-manage/AdSetList'
+import ConnectedList from '../app/components/ad-manage/ConnectedList'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
@@ -32,6 +34,7 @@ const StyledCard = styled.div`
 `
 
 const AdManager = () => {
+
     const initialState = {
         startDate: '2023-02-19',
         endDate: '2023-02-19',
@@ -40,6 +43,11 @@ const AdManager = () => {
         data: [],
         isMediaLoading: false,
         isAdLoading: false,
+        pair: {
+            dataType: '',
+            dataKey: 0
+        },
+        pairComplete: false,
     }
 
     const [state, setState] = React.useState(initialState)
@@ -86,20 +94,94 @@ const AdManager = () => {
 
     const getAdSets = async () => {
         setState({ ...state, isAdLoading: true })
-        const tiktokData = await getTiktok(state.startDate, state.endDate)
+        // const tiktokData = await getTiktok(state.startDate, state.endDate);
+        // setState({
+        //     ...state,
+        //     adSets: tiktokData.data.map((item) => ({
+        //         adgroupId: item.dimensions.adgroup_id,
+        //         spend: item.metrics.spend,
+        //         adgroupName: item.metrics.adgroup_name,
+        //     })),
+        //     isAdLoading: false,
+        // })
+        var index = 1;
+        const tiktokData = await getInfuse(state.startDate, state.endDate);
         setState({
             ...state,
             adSets: tiktokData.data.map((item) => ({
-                adgroupId: item.dimensions.adgroup_id,
-                spend: item.metrics.spend,
-                adgroupName: item.metrics.adgroup_name,
+                no: index++,
+                adgroupId: item.Stat.source,
+                spend: parseFloat(item.Stat.payout),
+                adgroupName: item.Offer.name,
             })),
             isAdLoading: false,
         })
     }
 
-    const handleMediaChange = (dataType, dataKey) => {
-        console.log(dataType, dataKey)
+    const handleSourceChange = (dataType, dataKey) => {
+        setState({...state, pair: { dataType: dataType, dataKey: dataKey}});
+        const pair = state.pair;
+        if (!isEmpty(pair.dataType)) {
+            setState({
+                ...state, 
+                data: [
+                    ...state.data,
+                    {
+                        ...state[dataType].filter(item => item.no === dataKey)[0], 
+                        ...state[pair.dataType].filter(item => item.no === pair.dataKey)[0],
+                        [pair.dataType]: pair.dataKey,
+                        [dataType]: dataKey,
+                        no: state.data.length + 1
+                    }
+                ],
+                [dataType]: state[dataType].filter(item => item.no !== dataKey),
+                [pair.dataType]: state[pair.dataType].filter(item => item.no !== pair.dataKey),
+                pair: {
+                    dataType: '',
+                    dataKey: 0
+                }
+            });
+        }
+    }
+
+    const handleDataChange = key => {
+        const removeData = state.data.filter(item => item.no === key)[0];
+        setState({
+            ...state, 
+            mediaSources: [
+                ...state.mediaSources, 
+                { no: removeData.mediaSources, name: removeData.name, offer: removeData.offer, revenue: removeData.revenue, icon: removeData.icon },
+            ],
+            adSets: [
+                ...state.adSets,
+                { no: removeData.adSets, adgroupId: removeData.adgroupId, adgroupName: removeData.adgroupName, spend: removeData.spend }
+            ],
+            data: state.data.filter(item => item.no !== key)
+        });
+    }
+
+    const handleDataRemove = () => {
+        const mediaSource = 
+            state.data.map(item => ({
+                no: item.mediaSources, 
+                icon: item.icon, 
+                name: item.name, 
+                revenue: item.revenue, 
+                offer: item.offer
+            }));
+        const adSets = 
+            state.data.map(item => ({
+                no: item.adSets, 
+                adgroupId: item.adgroupId, 
+                adgroupName: item.adgroupName, 
+                spend: item.spend
+            }));
+
+        setState({
+            ...state, 
+            mediaSources: [...state.mediaSources, mediaSource], 
+            adSets: [...state.adSets, adSets]
+        });
     }
 
     return (
@@ -109,10 +191,23 @@ const AdManager = () => {
             md={10}
             sm={11}
             rowSpacing={2}
-            style={{ margin: '100px auto' }}
+            style={{ margin: '30px auto' }}
         >
-            <Grid container item spacing={2} md={6} sm={8} direction="row">
-                <Grid container item md={5} sm={6} xs={6}>
+            <Grid
+                container 
+                item 
+                spacing={2} 
+                md={6} 
+                sm={8} 
+                direction={"row"}
+            >
+                <Grid 
+                    container 
+                    item 
+                    md={5} 
+                    sm={6} 
+                    xs={6}
+                >
                     <BasicDatePicker
                         name="startDate"
                         label="Start Date"
@@ -120,7 +215,13 @@ const AdManager = () => {
                         onchange={handleSearchDate}
                     />
                 </Grid>
-                <Grid container item md={5} sm={6} xs={6}>
+                <Grid 
+                    container 
+                    item 
+                    md={5} 
+                    sm={6} 
+                    xs={6}
+                >
                     <BasicDatePicker
                         name="endDate"
                         label="End Date"
@@ -129,7 +230,10 @@ const AdManager = () => {
                     />
                 </Grid>
             </Grid>
-            <Grid container item>
+            <Grid 
+                container 
+                item
+            >
                 <StyledCard>
                     <Grid
                         container
@@ -162,15 +266,59 @@ const AdManager = () => {
                             direction={'row'}
                             justifyContent={'space-between'}
                         >
-                            <Grid container item md={3}>
+                            <Grid 
+                                container 
+                                item 
+                                md={3}
+                                xs={6}
+                            >
                                 <MediaList
                                     data={state.mediaSources}
                                     isLoading={state.isMediaLoading}
-                                    onchange={handleMediaChange}
+                                    onchange={handleSourceChange}
+                                />
+                            </Grid>
+                            <Grid 
+                                container 
+                                item
+                                sx={{ display: { md: 'block', xs: 'none' } }} 
+                                md={5}
+                            >
+                                <ConnectedList 
+                                    data={state.data}
+                                    onchange={handleDataChange}
+                                    onremove={handleDataRemove}
+                                />
+                            </Grid>
+                            <Grid 
+                                container 
+                                item 
+                                md={3}
+                                xs={6}
+                            >
+                                <AdSetList
+                                    data={state.adSets}
+                                    isLoading={state.isAdLoading}
+                                    onchange={handleSourceChange}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container item>
+                        <Grid 
+                            container 
+                            item
+                            sx={{ display: { md: 'none', xs: 'block' } }} 
+                            md={5}
+                        >
+                            <ConnectedList 
+                                data={state.data}
+                                onchange={handleDataChange}
+                                onremove={handleDataRemove}
+                            />
+                        </Grid>
+                        <Grid 
+                            container 
+                            item
+                        >
                             <StyledButton
                                 style={{ backgroundColor: '#363636' }}
                             >

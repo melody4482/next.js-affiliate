@@ -7,7 +7,6 @@ export const StyledList = styled.div`
     width: 100%;
     transition: 500ms;
     display: flex;
-    justify-content: center;
     flex-direction: column;
 `
 
@@ -28,6 +27,6 @@ export const StyledListItem = styled.div`
         flex-direction: row;
     }
     & p {
-        margin: 3px 0;
+        margin: 3px 5px;
     }
 `
