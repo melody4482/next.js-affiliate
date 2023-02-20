@@ -97,28 +97,28 @@ const AdManager = () => {
 
     const getAdSets = async () => {
         setState({ ...state, isAdLoading: true })
-        // const tiktokData = await getTiktok(state.startDate, state.endDate);
-        // setState({
-        //     ...state,
-        //     adSets: tiktokData.data.map((item) => ({
-        //         adgroupId: item.dimensions.adgroup_id,
-        //         spend: item.metrics.spend,
-        //         adgroupName: item.metrics.adgroup_name,
-        //     })),
-        //     isAdLoading: false,
-        // })
-        var index = 1;
-        const tiktokData = await getInfuse(state.startDate, state.endDate);
+        const tiktokData = await getTiktok(state.startDate, state.endDate);
         setState({
             ...state,
             adSets: tiktokData.data.map((item) => ({
-                no: index++,
-                adgroupId: item.Stat.source,
-                spend: parseFloat(item.Stat.payout),
-                adgroupName: item.Offer.name,
+                adgroupId: item.dimensions.adgroup_id,
+                spend: item.metrics.spend,
+                adgroupName: item.metrics.adgroup_name,
             })),
             isAdLoading: false,
         })
+        var index = 1;
+        // const tiktokData = await getInfuse(state.startDate, state.endDate);
+        // setState({
+        //     ...state,
+        //     adSets: tiktokData.data.map((item) => ({
+        //         no: index++,
+        //         adgroupId: item.Stat.source,
+        //         spend: parseFloat(item.Stat.payout),
+        //         adgroupName: item.Offer.name,
+        //     })),
+        //     isAdLoading: false,
+        // })
     }
 
     const handleSourceChange = (dataType, dataKey) => {

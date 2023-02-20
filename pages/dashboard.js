@@ -2,7 +2,8 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { useAppContext } from '../context/AppContext'
 import { Grid, Button } from '@mui/material'
-import BasicTable from '../app/components/Table'
+import BasicTable from '../app/components/table/Table'
+import isEmpty from 'is-empty'
 
 const columns = [
     {
@@ -14,11 +15,20 @@ const columns = [
         id: 'icon',
         align: 'center',
         label: '',
+        render: icon => {
+            isEmpty(icon) ? 
+                <div /> : <img
+                    width={15}
+                    height={15}
+                    alt={`${icon}`}
+                    src={`${icon}`}
+            />}
     },
     {
         id: 'name',
         align: 'left',
         label: 'Name',
+        columnAlign: 'left',
         style: {
             width: '30%',
         },
@@ -32,6 +42,9 @@ const columns = [
         id: 'profit',
         align: 'center',
         label: 'Profit',
+        style: {
+            color: 'green'
+        }
     },
     {
         id: 'revenue',

@@ -4,8 +4,11 @@ import {
     TableContainer,
     tableCellClasses,
     TablePagination,
+    Button,
 } from '@mui/material'
+import { Box } from '@mui/system'
 
+// Table Styles
 export const StyledTableContainer = styled(TableContainer)(() => ({
     [`&`]: {
         backgroundColor: '#1d1d1f',
@@ -35,3 +38,18 @@ export const StyledTablePagination = styled(TablePagination)(() => ({
         color: '#fff',
     },
 }))
+
+
+// Table Pagination Styles
+export const StyledPagination = styled(Box)(() => ({
+    padding: '6px 13px',
+    border: '1px solid #525252',
+    backgroundColor: '#2B2A2F',
+}));
+
+export const StyledPaginationButton = styled(Button)(() => ({
+    [`&`]: {
+        padding: '3px',
+        backgroundColor: '#2B2A2F'
+    }
+}));
