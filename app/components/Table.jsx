@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import * as React from 'react'
 import Image from 'next/image'
 import TablePagination from '@mui/material/TablePagination'
@@ -8,52 +9,6 @@ import {
     StyledTablePagination,
 } from './tableStyles'
 import isEmpty from 'is-empty'
-
-const columns = [
-    {
-        id: 'no',
-        align: 'center',
-        label: 'no',
-    },
-    {
-        id: 'icon',
-        align: 'center',
-        label: '',
-    },
-    {
-        id: 'name',
-        align: 'left',
-        label: 'Name',
-        style: {
-            width: '30%',
-        },
-    },
-    {
-        id: 'roas',
-        align: 'center',
-        label: 'ROAS',
-    },
-    {
-        id: 'profit',
-        align: 'center',
-        label: 'Profit',
-    },
-    {
-        id: 'revenue',
-        align: 'center',
-        label: 'Revenue',
-    },
-    {
-        id: 'spend',
-        align: 'center',
-        label: 'Spend',
-    },
-    {
-        id: 'offer',
-        align: 'center',
-        label: 'Offer',
-    },
-]
 
 export default function CustomizedTables(props) {
     const initialState = {
@@ -80,7 +35,7 @@ export default function CustomizedTables(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {columns.map((headCell) => (
+                            {props.columns.map((headCell) => (
                                 <StyledTableCell
                                     key={headCell.id}
                                     align={headCell.align}
@@ -96,7 +51,7 @@ export default function CustomizedTables(props) {
                             <TableRow>
                                 <StyledTableCell
                                     align="center"
-                                    colSpan={columns.length}
+                                    colSpan={props.columns.length}
                                     style={{ height: '50vh' }}
                                 >
                                     <Image
@@ -148,7 +103,7 @@ export default function CustomizedTables(props) {
                             <TableRow>
                                 <StyledTableCell
                                     align="center"
-                                    colSpan={columns.length}
+                                    colSpan={props.columns.length}
                                     style={{ height: '50vh' }}
                                 >
                                     <Image
@@ -182,4 +137,10 @@ export default function CustomizedTables(props) {
             />
         </div>
     )
+}
+
+CustomizedTables.propTypes = {
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.any,
+  isLoading: PropTypes.isLoading
 }

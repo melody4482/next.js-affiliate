@@ -1,7 +1,8 @@
-import { Grid, Button } from '@mui/material'
-import dayjs from 'dayjs'
 import React from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { useAppContext } from '../context/AppContext'
+import { Grid, Button } from '@mui/material'
 import { getInfuse, getPlug, getTiktok } from '../app/api/dashboard'
 import BasicDatePicker from '../app/components/DatePicker'
 import MediaList from '../app/components/ad-manage/MediaList'
@@ -48,9 +49,11 @@ const AdManager = () => {
             dataKey: 0
         },
         pairComplete: false,
-    }
+    };
 
-    const [state, setState] = React.useState(initialState)
+    const [state, setState] = React.useState(initialState);
+    const [context, setContext] = useAppContext();
+    const router = useRouter();
 
     React.useEffect(() => {
         // setState({
@@ -182,6 +185,11 @@ const AdManager = () => {
             mediaSources: [...state.mediaSources, mediaSource], 
             adSets: [...state.adSets, adSets]
         });
+    }
+
+    const handleDataSave = () => {
+        setContext({...context, ad_data: state.data});
+        router.push('/dashboard');
     }
 
     return (
@@ -321,6 +329,7 @@ const AdManager = () => {
                         >
                             <StyledButton
                                 style={{ backgroundColor: '#363636' }}
+                                onClick={handleDataSave}
                             >
                                 Open Result in Dashboard
                             </StyledButton>
