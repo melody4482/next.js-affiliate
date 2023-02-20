@@ -55,7 +55,7 @@ export default function MediaList(props) {
                         }
                     >
                         <div>
-                            <img src={item.icon} />
+                            {!isEmpty(item.icon) && <img width={25} height={25} src={item.icon} /> }
                             <p>{item.name}</p>
                         </div>
                         <ArrowCircleRightOutlinedIcon />

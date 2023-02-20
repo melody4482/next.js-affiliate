@@ -23,7 +23,7 @@ export const getInfuse = async (startDate, endDate) => {
  * @params {startDate, endDate}
  * @return JSON Plug Data
  */
-export const getPlug = async (startDate, endDate) => {
+export const getPlug = async (startDate, endDate, bearerToken) => {
     /**
      * @method POST
      * @desc Get Firebase Token
@@ -32,11 +32,11 @@ export const getPlug = async (startDate, endDate) => {
         `https://securetoken.googleapis.com/v1/token?key=AIzaSyCRYBeb5B5J0EJQr7-631BTwu4f6p9EsKc`,
         {
             method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/x-www-form-urlencoded',
-            //     'grant_type': 'refresh_token',
-            //     'regresh_token_1': 'AOEOulZYVnczctVS6DlGCj1eKDu4wXWCN0I35wr0vsf0xNv8MjZFZclKWCA8OYk8Cp4XDnjEvNKawaRiUMQ653NlcG1wmRWOvr6uGkGCiB75_ZnX-5fmtJzbGweTjfkwEnHiFBylTsGL08sJ_8GbUxV-oBOu4WtXqQ'
-            // },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'grant_type': 'refresh_token',
+                'regresh_token_1': 'AOEOulZYVnczctVS6DlGCj1eKDu4wXWCN0I35wr0vsf0xNv8MjZFZclKWCA8OYk8Cp4XDnjEvNKawaRiUMQ653NlcG1wmRWOvr6uGkGCiB75_ZnX-5fmtJzbGweTjfkwEnHiFBylTsGL08sJ_8GbUxV-oBOu4WtXqQ'
+            },
             body: JSON.stringify({
                 grant_type: 'refresh_token',
                 refresh_token:
@@ -52,13 +52,13 @@ export const getPlug = async (startDate, endDate) => {
              * @desc Get Plug data by Firebase token with JSON type
              */
             return fetch(
-                `https://theplug-prod.herokuapp.com/api/v1/bqReport?start_date=${startDate}&end_date=${endDate}&timezone=America/New_York&columns=date,campaign,campaign_name,campaign_image_url,media_name,dollars&format=json`,
+                `https://theplug-prod.herokuapp.com/api/v1/bqReport?start_date=${startDate}&end_date=${endDate}&timezone=America/New_York&columns=date,campaign,campaign_name,campaign_image_url,media,media_name,dollars&format=json`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization:
-                            'bearer eyJhbGciOiJIUzI1NiJ9.NTg1NTI.abImRgZCkT1k9zhTmXeLexc_QpTL3wEUFEze_IiXOvo',
+                            `${bearerToken}`,
                         FirebaseToken: idToken,
                     },
                 }
@@ -76,29 +76,31 @@ export const getPlug = async (startDate, endDate) => {
  * @params {startDate, endDate}
  * @return TikTok data with JSON
  */
-export const getTiktok = async (startDate, endDate) => {
+export const getTiktok = async (startDate, endDate, advertiser_id) => {
     /**
      * @method GET
      * @desc Get Tiktok data with JSON type
      */
     return fetch(
-        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=7145102062467006466&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=50&start_date=${startDate}&end_date=${endDate}`,
+        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=${advertiser_id}&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=50&start_date=${startDate}&end_date=${endDate}`,
         { 
             method: 'GET',
             headers: {
-                'Access-Control-Allow-Headers': '*',
+                "Access-Control-Request-Method": "GET,HEAD,OPTIONS,POST,PUT",
+                "Access-Control-Request-Headers": "Access-Control-Allow-Headers, Access-Token, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
+                "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Access-Token, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Method": "GET,HEAD,OPTIONS,POST,PUT",
+                'Access-Control-Allow-Credentials': 'true',
                 'Access-Token': '70f21646e0a7da20e90acaf96b939a4c49d8fc59'
             }
         }
     )
         .then((res) => res.json())
         .then((data) => {
-            return data
+            return data.data
         })
         .catch((err) => {
             console.log(err)
         })
 }
-
-
-// https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=7145102062467006466&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=50&start_date=2023-02-18&end_date=2023-02-18

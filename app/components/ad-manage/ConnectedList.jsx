@@ -42,7 +42,7 @@ export default function ConnectedList(props) {
                         key={item.no}
                     >
                         <div>
-                            <img src={item.icon} />
+                            {!isEmpty(item.icon) && <img width={25} height={25} src={item.icon} />}
                             <p>{item.name}</p>
                         </div>
                         <Button 
