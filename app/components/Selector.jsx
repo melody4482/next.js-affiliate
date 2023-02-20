@@ -6,7 +6,7 @@ import {
     FormControl,
     Box,
     Select
- } from '@mui/material';
+} from '@mui/material';
 
 export default function BasicSelect(props) {
 
@@ -14,7 +14,7 @@ export default function BasicSelect(props) {
         props.onchange(
             props.name, 
             { 
-                name: props.data.filter(item => item.id === event.target.value)[0].name, 
+                name: props.data.filter(item => item.value === event.target.value)[0].name, 
                 id: event.target.value
             });
     };

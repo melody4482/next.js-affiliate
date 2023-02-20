@@ -84,9 +84,13 @@ const AdManager = () => {
     }
 
     const getMediaSource = async () => {
+        if (isEmpty(state.plugAccount)) {
+            alert('error');
+            return;
+        }
         setState({ ...state, isMediaLoading: true })
         const infuseData = await getInfuse(state.startDate, state.endDate)
-        var plugData = await getPlug(state.startDate, state.endDate)
+        var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
         var index = 1
         setState({
@@ -112,8 +116,12 @@ const AdManager = () => {
     }
 
     const getAdSets = async () => {
+        if (isEmpty(state.tiktokAccount)) {
+            alert('error');
+            return;
+        }
         setState({ ...state, isAdLoading: true })
-        const tiktokData = await getTiktok(state.startDate, state.endDate);
+        const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
         setState({
             ...state,
@@ -130,7 +138,7 @@ const AdManager = () => {
     const handleSourceChange = (dataType, dataKey) => {
         setState({...state, pair: { dataType: dataType, dataKey: dataKey}});
         const pair = state.pair;
-        if (!isEmpty(pair.dataType)) {
+        if (!isEmpty(pair.dataType) && dataType !== state.pair.dataType) {
             setState({
                 ...state, 
                 data: [
@@ -199,8 +207,7 @@ const AdManager = () => {
     }
 
     const handleAccountSelect = (accountType, account) => {
-        console.log(accountType, account)
-        // setState({ ...state, [accountType]: account });
+        setState({ ...state, [accountType]: account });
     }
 
     return (

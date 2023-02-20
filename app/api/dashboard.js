@@ -32,11 +32,11 @@ export const getPlug = async (startDate, endDate, bearerToken) => {
         `https://securetoken.googleapis.com/v1/token?key=AIzaSyCRYBeb5B5J0EJQr7-631BTwu4f6p9EsKc`,
         {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'grant_type': 'refresh_token',
-                'regresh_token_1': 'AOEOulZYVnczctVS6DlGCj1eKDu4wXWCN0I35wr0vsf0xNv8MjZFZclKWCA8OYk8Cp4XDnjEvNKawaRiUMQ653NlcG1wmRWOvr6uGkGCiB75_ZnX-5fmtJzbGweTjfkwEnHiFBylTsGL08sJ_8GbUxV-oBOu4WtXqQ'
-            },
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded',
+            //     'grant_type': 'refresh_token',
+            //     'regresh_token_1': 'AOEOulZYVnczctVS6DlGCj1eKDu4wXWCN0I35wr0vsf0xNv8MjZFZclKWCA8OYk8Cp4XDnjEvNKawaRiUMQ653NlcG1wmRWOvr6uGkGCiB75_ZnX-5fmtJzbGweTjfkwEnHiFBylTsGL08sJ_8GbUxV-oBOu4WtXqQ'
+            // },
             body: JSON.stringify({
                 grant_type: 'refresh_token',
                 refresh_token:
@@ -57,8 +57,7 @@ export const getPlug = async (startDate, endDate, bearerToken) => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization:
-                            `${bearerToken}`,
+                        Authorization: bearerToken,
                         FirebaseToken: idToken,
                     },
                 }

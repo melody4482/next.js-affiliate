@@ -41,18 +41,17 @@ export default function ConnectedList(props) {
                     <StyledListItem
                         key={item.no}
                     >
-                        <div>
+                        <div style={{width: '45%'}}>
                             {!isEmpty(item.icon) && <img width={25} height={25} src={item.icon} />}
                             <p>{item.name}</p>
                         </div>
-                        <Button 
-                            // color="default" 
-                            style={{padding: '3px 5px'}} 
+                        <Button
+                            style={{padding: '3px 5px', width: '10%'}} 
                             onClick={() => removeItem(item.no)}
                         >
                             <CancelOutlinedIcon />
                         </Button>
-                        <p>{item.adgroupName}</p>
+                        <p style={{width: '45%'}}>{item.adgroupName}</p>
                     </StyledListItem>
                 ))
             )}
