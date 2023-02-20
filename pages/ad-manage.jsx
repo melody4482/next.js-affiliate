@@ -4,6 +4,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { getInfuse, getPlug, getTiktok } from '../app/api/dashboard'
 import BasicDatePicker from '../app/components/DatePicker'
+import MediaList from '../app/components/ad-manage/MediaList'
+import isEmpty from 'is-empty'
+
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
         backgroundColor: 'rgba(111, 100, 207)',
@@ -30,8 +33,8 @@ const StyledCard = styled.div`
 
 const AdManager = () => {
     const initialState = {
-        startDate: '',
-        endDate: '',
+        startDate: '2023-02-19',
+        endDate: '2023-02-19',
         mediaSources: [],
         adSets: [],
         data: [],
@@ -42,11 +45,11 @@ const AdManager = () => {
     const [state, setState] = React.useState(initialState)
 
     React.useEffect(() => {
-        setState({
-            ...state,
-            startDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-            endDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-        })
+        // setState({
+        //     ...state,
+        //     startDate: dayjs(dayjs(), 'YYYY-MM-DD'),
+        //     endDate: dayjs(dayjs(), 'YYYY-MM-DD'),
+        // })
     }, [])
 
     const handleSearchDate = (e) => {
@@ -56,17 +59,21 @@ const AdManager = () => {
     const getMediaSource = async () => {
         setState({ ...state, isMediaLoading: true })
         const infuseData = await getInfuse(state.startDate, state.endDate)
-        const plugData = await getPlug(state.startDate, state.endDate)
+        var plugData = await getPlug(state.startDate, state.endDate)
+        plugData = isEmpty(plugData.data) ? { data: [] } : plugData
+        var index = 1
         setState({
             ...state,
             mediaSources: [
                 ...infuseData.data.map((item) => ({
+                    no: index++,
                     icon: '',
                     name: item.Stat.source,
                     revenue: parseFloat(item.Stat.payout),
                     offer: item.Offer.name,
                 })),
                 ...plugData.data.map((item) => ({
+                    no: index++,
                     icon: item.campaign_image_url,
                     name: item.media_name,
                     revenue: parseFloat(item.dollars),
@@ -89,6 +96,10 @@ const AdManager = () => {
             })),
             isAdLoading: false,
         })
+    }
+
+    const handleMediaChange = (dataType, dataKey) => {
+        console.log(dataType, dataKey)
     }
 
     return (
@@ -130,8 +141,8 @@ const AdManager = () => {
                             container
                             item
                             spacing={3}
-                            direction="row"
-                            justifyContent="space-between"
+                            direction={'row'}
+                            justifyContent={'space-between'}
                         >
                             <Grid container item md={3} xs={6}>
                                 <StyledButton onClick={getMediaSource}>
@@ -148,10 +159,16 @@ const AdManager = () => {
                             container
                             item
                             spacing={2}
-                            direction="row"
+                            direction={'row'}
                             justifyContent={'space-between'}
                         >
-                            <Grid container item></Grid>
+                            <Grid container item md={3}>
+                                <MediaList
+                                    data={state.mediaSources}
+                                    isLoading={state.isMediaLoading}
+                                    onchange={handleMediaChange}
+                                />
+                            </Grid>
                         </Grid>
                         <Grid container item>
                             <StyledButton
