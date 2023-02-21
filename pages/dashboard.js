@@ -2,8 +2,22 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { useAppContext } from '../context/AppContext'
 import { Grid, Button } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import BasicTable from '../app/components/table/Table'
 import isEmpty from 'is-empty'
+import { addRevenue } from '../app/api/revenue'
+import SaveSharpIcon from '@mui/icons-material/SaveSharp';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+export const StyledButton = styled(Button)(() => ({
+    [`&`]: {
+        padding: '5px 3px',
+        width: '100%',
+        color: "#fff",
+        fontWeight: '500',
+        textAlign: 'center'
+    }
+}));
 
 const columns = [
     {
@@ -68,7 +82,7 @@ export default function Dashboard() {
     const [state, setState] = React.useState(initialState)
     const [context, setContext] = useAppContext();
     const router = useRouter();
-    console.log(context);
+
     React.useEffect(() => {
         var index = 1;
         setState(context.ad_data.map(item => ({
@@ -83,16 +97,34 @@ export default function Dashboard() {
         })));
     }, [context.ad_data]);
 
-    const handleSearchDate = (e) => {
-        setState({ ...state, [e.name]: e.value })
+    const handleRevenueSave = async () => {
+        addRevenue(state);
     }
+
     return (
         <Grid item container xl={8} lg={10} xs={11} justifyContent="center" margin={"auto"}>
             <Grid container item rowSpacing={1} direction="column" marginTop="50px">
-                <Grid container item>
-                    <Button onClick={() => router.push('/ad-manage')}>Go Back</Button>
+                <Grid container item justifyContent={"space-between"}>
+                    <Grid container item md={3}>
+                        <StyledButton 
+                            
+                            onClick={() => router.push('/ad-manage')}
+                        >
+                            <ArrowBackIcon />
+                            Go Back
+                        </StyledButton>
+                    </Grid>
+                    <Grid container item md={3}>
+                        <StyledButton 
+                            style={{ backgroundColor: '#1f237f' }} 
+                            onClick={handleRevenueSave}
+                        >
+                            <SaveSharpIcon />
+                            Save Data
+                        </StyledButton>
+                    </Grid>
                 </Grid>
-                <Grid item container style={{marginBottom: '50px'}}>
+                <Grid item container>
                     <BasicTable columns={columns} data={state} />
                 </Grid>
             </Grid>

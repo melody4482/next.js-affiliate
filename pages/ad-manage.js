@@ -113,27 +113,34 @@ const AdManager = () => {
             isMediaLoading: false,
         })
     }
+    console.log(state);
 
     const getAdSets = async () => {
+        // if (isEmpty(state.plugAccount)) {
+        //     alert('error');
+        //     return;
+        // }
+        // setState({ ...state, isAdLoading: true });
+
+        // const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
+        // var index = 1;
+        // setState({
+        //     ...state,
+        //     adSets: tiktokdata.data.map((item) => ({
+        //         no: index ++,
+        //         adgroupId: item.campaign_image_url,
+        //         spend: parseFloat(item.dollars),
+        //         adgroupName: item.campaign_name,
+        //     })),
+        //     isAdLoading: false,
+        // });
+        // return;
         if (isEmpty(state.tiktokAccount)) {
             alert('error');
             return;
         }
         setState({ ...state, isAdLoading: true });
 
-        const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
-        var index = 1;
-        setState({
-            ...state,
-            adSets: tiktokdata.data.map((item) => ({
-                no: index ++,
-                adgroupId: item.campaign_image_url,
-                spend: parseFloat(item.dollars),
-                adgroupName: item.campaign_name,
-            })),
-            isAdLoading: false,
-        });
-        return;
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
         setState({

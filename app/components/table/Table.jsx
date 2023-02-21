@@ -27,7 +27,7 @@ export default function CustomizedTables(props) {
     }
 
     return (
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', marginBottom: '100px   ' }}>
             <StyledTableContainer>
                 <Table>
                     <TableHead>

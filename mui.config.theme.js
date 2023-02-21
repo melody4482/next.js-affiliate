@@ -1,6 +1,11 @@
 import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
+    palette: {
+        background: {
+            default: "#1a2027"
+        }
+    },
     components: {
         MuiInputLabel: {
             defaultProps: {
