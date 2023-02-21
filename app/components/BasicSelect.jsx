@@ -11,12 +11,12 @@ import {
 export default function BasicSelect(props) {
 
     const handleChange = (event) => {
-        props.onchange(
-            props.name, 
-            { 
-                name: props.data.filter(item => item.value === event.target.value)[0].name, 
-                id: event.target.value
-            });
+        // props.onchange(
+        //     props.name, 
+        //     { 
+        //         name: props.data.filter(item => item.value === event.target.value)[0].name, 
+        //         id: event.target.value
+        //     });
     };
 
     return (
@@ -30,7 +30,7 @@ export default function BasicSelect(props) {
                 <Select
                     label={props.label}
                     onChange={handleChange}
-                    value={props.data[0].id}
+                    value={props.data[0].value}
                     sx={{
                         borderRadius: '3px',
                         color: '#fff',

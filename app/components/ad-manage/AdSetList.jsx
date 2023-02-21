@@ -39,6 +39,7 @@ export default function AdSetList(props) {
                 <Image
                     width={60}
                     height={60}
+                    priority
                     alt="dropbox"
                     src={`/loading.svg`}
                     style={{ margin: '200px auto' }}

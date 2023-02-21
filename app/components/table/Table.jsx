@@ -53,6 +53,7 @@ export default function CustomizedTables(props) {
                                     style={{ height: '50vh' }}
                                 >
                                     <Image
+                                        priority
                                         width={60}
                                         height={60}
                                         alt="dropbox"
@@ -83,6 +84,7 @@ export default function CustomizedTables(props) {
                                     <Image
                                         width={60}
                                         height={60}
+                                        priority
                                         alt="dropbox"
                                         src={`/dropbox.png`}
                                     />

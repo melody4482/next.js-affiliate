@@ -30,6 +30,7 @@ export default function ConnectedList(props) {
                 <Image
                     width={60}
                     height={60}
+                    priority
                     alt="dropbox"
                     src={`/loading.svg`}
                     style={{ margin: '200px auto' }}

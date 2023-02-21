@@ -36,6 +36,7 @@ export default function MediaList(props) {
         <StyledList>
             {props.isLoading ? (
                 <Image
+                    priority
                     width={60}
                     height={60}
                     alt="dropbox"

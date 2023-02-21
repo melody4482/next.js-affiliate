@@ -9,7 +9,7 @@ import MediaList from '../app/components/ad-manage/MediaList'
 import isEmpty from 'is-empty'
 import AdSetList from '../app/components/ad-manage/AdSetList'
 import ConnectedList from '../app/components/ad-manage/ConnectedList'
-import BasicSelect from '../app/components/Selector'
+import BasicSelect from '../app/components/BasicSelect'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
@@ -36,11 +36,11 @@ const StyledCard = styled.div`
 `
 
 const tiktokAccounts = [
-    { name: "BGM 03", value: 7156472503018310353 },
-    { name: "BGM - Media Digital", value: 7145102062467006466 },
-    { name: "Plug Co", value: 7060636350755667969 },
-    { name: "Stacks Ads", value: 7060955335363805185 },
-    { name: "Plug 2022", value: 7063596340252573698 }
+    { name: "BGM 03", value: '7156472503018340353' },
+    { name: "BGM - Media Digital", value: '7145102062467006466' },
+    { name: "Plug Co", value: '7060636350755667969' },
+    { name: "Stacks Ads", value: '7060955335363805185' },
+    { name: "Plug 2022", value: '7063596340252573698' }
 ];
 
 const plugAccounts = [
@@ -211,31 +211,10 @@ const AdManager = () => {
     }
 
     return (
-        <Grid
-            container
-            item
-            md={10}
-            sm={11}
-            rowSpacing={2}
-            style={{ margin: '30px auto' }}
-        >
-            <Grid
-                container 
-                item 
-                spacing={2} 
-                md={12} 
-                sm={8} 
-                direction={"row"}
-                justifyContent={"space-between"}
-            >
+        <Grid container item md={10} sm={11} rowSpacing={2} style={{ margin: '30px auto' }}>
+            <Grid container item spacing={2} md={12} sm={8} direction={"row"} justifyContent={"space-between"}>
                 <Grid container item direction={"row"} md={6}>
-                    <Grid 
-                        container 
-                        item 
-                        md={5} 
-                        sm={6} 
-                        xs={6}
-                    >
+                    <Grid container item md={5} sm={6} xs={6}>
                         <BasicDatePicker
                             name="startDate"
                             label="Start Date"
@@ -243,13 +222,7 @@ const AdManager = () => {
                             onchange={handleSearchDate}
                         />
                     </Grid>
-                    <Grid 
-                        container 
-                        item 
-                        md={5} 
-                        sm={6} 
-                        xs={6}
-                    >
+                    <Grid container item md={5} sm={6} xs={6}>
                         <BasicDatePicker
                             name="endDate"
                             label="End Date"
@@ -267,24 +240,10 @@ const AdManager = () => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid 
-                container 
-                item
-            >
+            <Grid container item>
                 <StyledCard>
-                    <Grid
-                        container
-                        item
-                        rowSpacing={1}
-                        justifyContent={'space-around'}
-                    >
-                        <Grid
-                            container
-                            item
-                            spacing={3}
-                            direction={'row'}
-                            justifyContent={'space-between'}
-                        >
+                    <Grid container item rowSpacing={1} justifyContent={'space-around'}>
+                        <Grid container item spacing={3} direction={'row'} justifyContent={'space-between'}>
                             <Grid container item md={3} xs={6}>
                                 <StyledButton onClick={getMediaSource}>
                                     GET MEDIA SOURCES
@@ -296,43 +255,22 @@ const AdManager = () => {
                                 </StyledButton>
                             </Grid>
                         </Grid>
-                        <Grid
-                            container
-                            item
-                            spacing={2}
-                            direction={'row'}
-                            justifyContent={'space-between'}
-                        >
-                            <Grid 
-                                container 
-                                item 
-                                md={3}
-                                xs={6}
-                            >
+                        <Grid container item spacing={2} direction={'row'} justifyContent={'space-between'}>
+                            <Grid  container item  md={3} xs={6}>
                                 <MediaList
                                     data={state.mediaSources}
                                     isLoading={state.isMediaLoading}
                                     onchange={handleSourceChange}
                                 />
                             </Grid>
-                            <Grid 
-                                container 
-                                item
-                                sx={{ display: { md: 'block', xs: 'none' } }} 
-                                md={5}
-                            >
+                            <Grid container item sx={{ display: { md: 'block', xs: 'none' } }} md={5}>
                                 <ConnectedList 
                                     data={state.data}
                                     onchange={handleDataChange}
                                     onremove={handleDataRemove}
                                 />
                             </Grid>
-                            <Grid 
-                                container 
-                                item 
-                                md={3}
-                                xs={6}
-                            >
+                            <Grid container item md={3} xs={6}>
                                 <AdSetList
                                     data={state.adSets}
                                     isLoading={state.isAdLoading}
@@ -340,22 +278,14 @@ const AdManager = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid 
-                            container 
-                            item
-                            sx={{ display: { md: 'none', xs: 'block' } }} 
-                            md={5}
-                        >
+                        <Grid container item sx={{ display: { md: 'none', xs: 'block' } }} md={5}>
                             <ConnectedList 
                                 data={state.data}
                                 onchange={handleDataChange}
                                 onremove={handleDataRemove}
                             />
                         </Grid>
-                        <Grid 
-                            container 
-                            item
-                        >
+                        <Grid container item>
                             <StyledButton
                                 style={{ backgroundColor: '#363636' }}
                                 onClick={handleDataSave}
