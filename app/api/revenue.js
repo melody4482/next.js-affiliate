@@ -1,7 +1,7 @@
 import proxyApi from "../config/proxyApi"
 
 export const addRevenue = revenue => {
-    fetch(`${proxyApi}/api/revenue`, {
+    fetch(`${proxyApi}api/revenue`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ export const addRevenue = revenue => {
 }
 
 export const getRevenueList = () => {
-    fetch(`${proxyApi}/api/revenue/list`, {method: 'GET'})
+    fetch(`${proxyApi}api/revenue/list`, {method: 'GET'})
         .then(res => res.json())
         .then(data => console.log(data))
 }
