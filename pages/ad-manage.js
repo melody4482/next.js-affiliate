@@ -91,7 +91,8 @@ const AdManager = () => {
         const infuseData = await getInfuse(state.startDate, state.endDate)
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
-        var index = 1
+        var index = 1;
+        console.log(infuseData, plugData);
         setState({
             ...state,
             mediaSources: [
@@ -141,6 +142,7 @@ const AdManager = () => {
         setState({ ...state, isAdLoading: true });
 
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
+        console.log(tiktokData)
         var index = 1;
         setState({
             ...state,
