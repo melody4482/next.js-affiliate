@@ -113,7 +113,6 @@ const AdManager = () => {
             isMediaLoading: false,
         })
     }
-    console.log(state);
 
     const getAdSets = async () => {
         // if (isEmpty(state.plugAccount)) {

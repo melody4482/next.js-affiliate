@@ -1,7 +1,7 @@
 import proxyApi from "../config/proxyApi"
 
 export const addRevenue = revenue => {
-    axios.post(`${proxyApi}/api/revenue`, {
+    fetch(`${proxyApi}/api/revenue`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
