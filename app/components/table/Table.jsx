@@ -45,23 +45,7 @@ export default function CustomizedTables(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.isLoading ? (
-                            <TableRow>
-                                <StyledTableCell
-                                    align="center"
-                                    colSpan={props.columns.length}
-                                    style={{ height: '50vh' }}
-                                >
-                                    <Image
-                                        priority
-                                        width={60}
-                                        height={60}
-                                        alt="dropbox"
-                                        src={`/loading.svg`}
-                                    />
-                                </StyledTableCell>
-                            </TableRow>
-                        ) : !isEmpty(props.data) ? (
+                        {!isEmpty(props.data) ? (
                             props.data.map(item => 
                                 <TableRow key={item.no} hover>
                                     {props.columns.map(col => 
@@ -99,24 +83,24 @@ export default function CustomizedTables(props) {
                                 </StyledTableCell>
                             </TableRow>
                         )}
+                        {/*<TableRow>
+                            <StyledTableCell colSpan={8} style={{width: '100%'}}>
+                                <TablePagination
+                                    current={state.current}
+                                    total={props.data.length}
+                                    pageSize={state.pageSize}
+                                    onPageChange={handlePageChange}
+                                />
+                            </StyledTableCell>
+                                    </TableRow>*/}
                     </TableBody>
                 </Table>
             </StyledTableContainer>
-            {/*<TablePagination
-                current={state.current}
-                total={props.data.length}
-                pageSize={state.pageSize}
-                onPageChange={handlePageChange}
-                                    />*/}
         </div>
     )
 }
 
 CustomizedTables.propTypes = {
   columns: PropTypes.array.isRequired,
-  data: PropTypes.shape({
-    length: PropTypes.any,
-    map: PropTypes.func
-  }),
-  isLoading: PropTypes.isLoading
+  data: PropTypes.array
 }

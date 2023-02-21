@@ -10,13 +10,16 @@ import {
 
 export default function BasicSelect(props) {
 
+    const [state, setState] = React.useState('');
+
     const handleChange = (event) => {
-        // props.onchange(
-        //     props.name, 
-        //     { 
-        //         name: props.data.filter(item => item.value === event.target.value)[0].name, 
-        //         id: event.target.value
-        //     });
+        setState(event.target.value);
+        props.onchange(
+            props.name, 
+            { 
+                name: props.data.filter(item => item.value === event.target.value)[0].name, 
+                id: event.target.value
+            });
     };
 
     return (
@@ -30,13 +33,16 @@ export default function BasicSelect(props) {
                 <Select
                     label={props.label}
                     onChange={handleChange}
-                    value={props.data[0].value}
+                    value={state}
                     sx={{
                         borderRadius: '3px',
                         color: '#fff',
                         '& .MuiSvgIcon-root': {
                             color: '#fff'
                         },
+                        '& fieldset': {
+                            border: '1px solid #4f4e4e'
+                        }
                     }}
                 >
                     {props.data.map(item => 

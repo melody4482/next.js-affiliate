@@ -10,10 +10,17 @@ import {
 
 export default function TablePagination(props) {
 
-    var buttons = [];
-    for(var i = 1; i <= Math.ceil(props.total / props.pageSize); i ++) {
-        buttons.push(<StyledPaginationButton onClick={() => props.onPageChange(i)}>{i}</StyledPaginationButton>);
-    }
+    const [pageCount, setPageCount] = React.useState([1]);
+
+    React.useEffect(() => {
+        var pages = [];
+        var index = 1;
+        while(pages.length < setPageCount(Math.ceil(props.total / props.pageSize)))
+            pages.push(index ++);
+        if (props.total === 0)
+            pages.push(1);
+        setPageCount(pages);
+    }, [props.total]);
 
     return (
         <StyledPagination>
@@ -23,7 +30,12 @@ export default function TablePagination(props) {
             <StyledPaginationButton onClick={() => props.onPageChange(props.current - 1)}>
                 <KeyboardArrowLeft />
             </StyledPaginationButton>
-            {buttons}
+            {
+                pageCount > 5 ? 
+                    <StyledPaginationButton onClick={() => props.onPageChange(item)}>{item}</StyledPaginationButton>
+                :
+                    pageCount.map(item => <StyledPaginationButton onClick={() => props.onPageChange(item)}>{item}</StyledPaginationButton>)
+            }
             <StyledPaginationButton onClick={() => props.onPageChange(props.current + 1)}>
                 <KeyboardArrowRight />
             </StyledPaginationButton>

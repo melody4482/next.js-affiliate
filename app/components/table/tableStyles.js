@@ -43,13 +43,18 @@ export const StyledTablePagination = styled(TablePagination)(() => ({
 // Table Pagination Styles
 export const StyledPagination = styled(Box)(() => ({
     padding: '6px 13px',
-    border: '1px solid #525252',
-    backgroundColor: '#2B2A2F',
+    border: '1px solid #434344',
+    backgroundColor: '#1d1d1f',
+    width: 'fit-content', 
+    marginLeft: 'auto'
 }));
 
 export const StyledPaginationButton = styled(Button)(() => ({
     [`&`]: {
-        padding: '3px',
-        backgroundColor: '#2B2A2F'
+        padding: '3px 3px',
+        backgroundColor: '#2B2A2F',
+        color: "#fff",
+        margin: '0 3px',
+        minWidth: '30px'
     }
 }));

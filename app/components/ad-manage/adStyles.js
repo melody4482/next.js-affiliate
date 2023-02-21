@@ -13,7 +13,7 @@ export const StyledList = styled.div`
 export const StyledListItem = styled.div`
     border: none;
     border-bottom: 1px solid #525252;
-    padding: 15px;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -25,8 +25,10 @@ export const StyledListItem = styled.div`
     & > div {
         display: flex;
         flex-direction: row;
+        margin: '5px 0'
     }
     & p {
-        margin: 3px 5px;
+        margin: 5px;
+        
     }
 `

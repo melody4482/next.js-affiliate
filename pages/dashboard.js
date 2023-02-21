@@ -83,13 +83,16 @@ export default function Dashboard() {
         })));
     }, [context.ad_data]);
 
+    const handleSearchDate = (e) => {
+        setState({ ...state, [e.name]: e.value })
+    }
     return (
-        <Grid item container xl={8} lg={10} xs={11} justifyContent={"center"} margin={"auto"}>
-            <Grid container item rowSpacing={1} direction={"column"} marginTop={"50px"}>
+        <Grid item container xl={8} lg={10} xs={11} justifyContent="center" margin={"auto"}>
+            <Grid container item rowSpacing={1} direction="column" marginTop="50px">
                 <Grid container item>
                     <Button onClick={() => router.push('/ad-manage')}>Go Back</Button>
                 </Grid>
-                <Grid item container>
+                <Grid item container style={{marginBottom: '50px'}}>
                     <BasicTable columns={columns} data={state} />
                 </Grid>
             </Grid>

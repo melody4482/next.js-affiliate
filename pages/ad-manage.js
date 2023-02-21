@@ -32,7 +32,6 @@ const StyledCard = styled.div`
     border-radius: 3px;
     border: 1px solid #282727;
     width: 100%;
-    padding: 30px;
 `
 
 const tiktokAccounts = [
@@ -120,7 +119,21 @@ const AdManager = () => {
             alert('error');
             return;
         }
-        setState({ ...state, isAdLoading: true })
+        setState({ ...state, isAdLoading: true });
+
+        const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
+        var index = 1;
+        setState({
+            ...state,
+            adSets: tiktokdata.data.map((item) => ({
+                no: index ++,
+                adgroupId: item.campaign_image_url,
+                spend: parseFloat(item.dollars),
+                adgroupName: item.campaign_name,
+            })),
+            isAdLoading: false,
+        });
+        return;
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
         setState({
@@ -212,9 +225,27 @@ const AdManager = () => {
 
     return (
         <Grid container item md={10} sm={11} rowSpacing={2} style={{ margin: '30px auto' }}>
-            <Grid container item spacing={2} md={12} sm={8} direction={"row"} justifyContent={"space-between"}>
-                <Grid container item direction={"row"} md={6}>
-                    <Grid container item md={5} sm={6} xs={6}>
+            <Grid container item spacing={2} xs={12} direction={"row"} justifyContent={"space-between"}>
+                <Grid container item direction={"row"} spacing={2} md={5} sm={5} xs={12}>
+                    <Grid container item xs={6}>
+                        <BasicSelect
+                            name="plugAccount" 
+                            label="Plug Account" 
+                            onchange={handleAccountSelect} 
+                            data={plugAccounts} 
+                        />
+                    </Grid>
+                    <Grid container item xs={6}>
+                        <BasicSelect 
+                            name="tiktokAccount" 
+                            label="Tiktok Account" 
+                            onchange={handleAccountSelect} 
+                            data={tiktokAccounts} 
+                        />
+                    </Grid>
+                </Grid>
+                <Grid container item direction={"row"} justifyContent={'end'} spacing={2} md={6} sm={6}>
+                    <Grid container item md={5} xs={6}>
                         <BasicDatePicker
                             name="startDate"
                             label="Start Date"
@@ -222,7 +253,7 @@ const AdManager = () => {
                             onchange={handleSearchDate}
                         />
                     </Grid>
-                    <Grid container item md={5} sm={6} xs={6}>
+                    <Grid container item md={5} xs={6}>
                         <BasicDatePicker
                             name="endDate"
                             label="End Date"
@@ -231,67 +262,61 @@ const AdManager = () => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item direction={"row"} md={6}>
-                    <Grid container item md={6}>
-                        <BasicSelect name="plugAccount" label="Plug Account" onchange={handleAccountSelect} data={plugAccounts} />
-                    </Grid>
-                    <Grid container item md={6}>
-                        <BasicSelect name="tiktokAccount" label="Tiktok Account" onchange={handleAccountSelect} data={tiktokAccounts} />
-                    </Grid>
-                </Grid>
             </Grid>
             <Grid container item>
                 <StyledCard>
-                    <Grid container item rowSpacing={1} justifyContent={'space-around'}>
-                        <Grid container item spacing={3} direction={'row'} justifyContent={'space-between'}>
-                            <Grid container item md={3} xs={6}>
-                                <StyledButton onClick={getMediaSource}>
-                                    GET MEDIA SOURCES
-                                </StyledButton>
+                    <Grid container item direction={"column"} sx={{ p: 2 }}>
+                        <Grid container item rowSpacing={1} justifyContent={'space-around'}>
+                            <Grid container item spacing={2} direction={'row'} justifyContent={'space-between'}>
+                                <Grid container item md={3} xs={6}>
+                                    <StyledButton onClick={getMediaSource}>
+                                        GET MEDIA SOURCES
+                                    </StyledButton>
+                                </Grid>
+                                <Grid container item md={3} xs={6}>
+                                    <StyledButton onClick={getAdSets}>
+                                        GET AD SETS
+                                    </StyledButton>
+                                </Grid>
                             </Grid>
-                            <Grid container item md={3} xs={6}>
-                                <StyledButton onClick={getAdSets}>
-                                    GET AD SETS
-                                </StyledButton>
+                            <Grid container item spacing={2} direction={'row'} justifyContent={'space-between'}>
+                                <Grid  container item  md={3} xs={6}>
+                                    <MediaList
+                                        data={state.mediaSources}
+                                        isLoading={state.isMediaLoading}
+                                        onchange={handleSourceChange}
+                                    />
+                                </Grid>
+                                <Grid container item sx={{ display: { md: 'block', xs: 'none' } }} sm={6}>
+                                    <ConnectedList
+                                        data={state.data}
+                                        onchange={handleDataChange}
+                                        onremove={handleDataRemove}
+                                    />
+                                </Grid>
+                                <Grid container item md={3} xs={6}>
+                                    <AdSetList
+                                        data={state.adSets}
+                                        isLoading={state.isAdLoading}
+                                        onchange={handleSourceChange}
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid container item spacing={2} direction={'row'} justifyContent={'space-between'}>
-                            <Grid  container item  md={3} xs={6}>
-                                <MediaList
-                                    data={state.mediaSources}
-                                    isLoading={state.isMediaLoading}
-                                    onchange={handleSourceChange}
-                                />
-                            </Grid>
-                            <Grid container item sx={{ display: { md: 'block', xs: 'none' } }} md={5}>
+                            <Grid container item sx={{ display: { md: 'none', xs: 'block' } }} md={5}>
                                 <ConnectedList 
                                     data={state.data}
                                     onchange={handleDataChange}
                                     onremove={handleDataRemove}
                                 />
                             </Grid>
-                            <Grid container item md={3} xs={6}>
-                                <AdSetList
-                                    data={state.adSets}
-                                    isLoading={state.isAdLoading}
-                                    onchange={handleSourceChange}
-                                />
+                            <Grid container item>
+                                <StyledButton
+                                    style={{ backgroundColor: '#363636' }}
+                                    onClick={handleDataSave}
+                                >
+                                    Open Result in Dashboard
+                                </StyledButton>
                             </Grid>
-                        </Grid>
-                        <Grid container item sx={{ display: { md: 'none', xs: 'block' } }} md={5}>
-                            <ConnectedList 
-                                data={state.data}
-                                onchange={handleDataChange}
-                                onremove={handleDataRemove}
-                            />
-                        </Grid>
-                        <Grid container item>
-                            <StyledButton
-                                style={{ backgroundColor: '#363636' }}
-                                onClick={handleDataSave}
-                            >
-                                Open Result in Dashboard
-                            </StyledButton>
                         </Grid>
                     </Grid>
                 </StyledCard>
