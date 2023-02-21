@@ -1,11 +1,19 @@
 import proxyApi from "../config/proxyApi"
 
 export const addRevenue = revenue => {
-    axios.post(`/api/revenue`, { revenues: revenue })
-        .then(res => console.log(res.data));
+    axios.post(`${proxyApi}/api/revenue`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ revenues: revenue })            
+        })
+        .then(res => res.json)
+        .then(data => console.log(data));
 }
 
 export const getRevenueList = () => {
-    axios.get(`/api/revenue/list`)
-        .then(res => res.data);
+    fetch(`${proxyApi}/api/revenue/list`, {method: 'GET'})
+        .then(res => res.json())
+        .then(data => console.log(data))
 }
