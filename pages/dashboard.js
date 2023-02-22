@@ -85,7 +85,7 @@ const columns = [
         id: 'roas',
         align: 'center',
         label: 'ROAS',
-        render: roas => <p>{isEmpty(roas) ? `0%` : `$${Number(roas * 100)}%`}</p>
+        render: roas => <p>{isEmpty(roas) ? `0%` : `${roas * 100}%`}</p>
     },
 ];
 
