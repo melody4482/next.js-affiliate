@@ -76,7 +76,7 @@ const columns = [
         },
         render: profit => 
                 <p 
-                    style={profit < 0 ? {color: 'red'} : {color: '#fff'}}
+                    style={profit < 0 ? {color: 'green'} : profit < 0 ? {color: 'red'} : {color: '#fff'}}
                 >
                     {`$${Number(profit).toFixed(2)}`}
                 </p>
