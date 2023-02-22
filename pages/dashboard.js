@@ -54,6 +54,7 @@ const columns = [
         id: 'revenue',
         align: 'center',
         label: 'Revenue',
+        render: revenue => <p>{isEmpty(revenue) ? 0 : `$${parseFloat(revenue).toFixed(2)}`}</p>
     },
     // {
     //     id: 'offer',
@@ -64,7 +65,7 @@ const columns = [
         id: 'spend',
         align: 'center',
         label: 'Spend',
-        render: spend => { isEmpty(spend) ?<div /> : <p>{`$${parseFloat(spend).toFixed(2)}`}</p> }
+        render: spend => <p>{isEmpty(spend) ? 0 : `$${parseFloat(spend).toFixed(2)}`}</p>
     },
     {
         id: 'profit',
@@ -73,21 +74,18 @@ const columns = [
         style: {
             color: 'green'
         },
-        render: profit => { 
-            isEmpty(profit) ?
-                <div /> : 
+        render: profit => 
                 <p 
                     style={parseFloat(profit) < 0 ? {color: 'red'} : {color: '#fff'}}
                 >
-                    {`$${parseFloat(profit).toFixed(2)}`}
+                    {isEmpty(profit) ? 0 : `$${parseFloat(profit).toFixed(2)}`}
                 </p>
-            }
     },
     {
         id: 'roas',
         align: 'center',
         label: 'ROAS',
-        render: roas => { isEmpty(roas) ?<div /> : <p>{`$${parseInt(roas * 100)}%`}</p> }
+        render: roas => <p>{isEmpty(roas) ? `0%` : `$${parseInt(roas * 100)}%`}</p>
     },
 ];
 
