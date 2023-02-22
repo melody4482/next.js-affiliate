@@ -54,7 +54,7 @@ const columns = [
         id: 'revenue',
         align: 'center',
         label: 'Revenue',
-        render: revenue => <p>{isEmpty(revenue) ? 0 : `$${Number(revenue).toFixed(2)}`}</p>
+        render: revenue => <p>{isEmpty(revenue) || revenue.toString() == '0' ? '$0' : `$${Number(revenue).toFixed(2)}`}</p>
     },
     // {
     //     id: 'offer',
@@ -65,7 +65,7 @@ const columns = [
         id: 'spend',
         align: 'center',
         label: 'Spend',
-        render: spend => <p>{isEmpty(spend) ? 0 : `$${Number(spend).toFixed(2)}`}</p>
+        render: spend => <p>{isEmpty(spend) || spend.toString() == '0' ? '$0' : `$${Number(spend).toFixed(2)}`}</p>
     },
     {
         id: 'profit',
@@ -76,9 +76,9 @@ const columns = [
         },
         render: profit => 
                 <p 
-                    style={Number(profit) < 0 ? {color: 'red'} : {color: '#fff'}}
+                    style={profit < 0 ? {color: 'red'} : {color: '#fff'}}
                 >
-                    {isEmpty(profit) ? 0 : `$${Number(profit).toFixed(2)}`}
+                    {isEmpty(profit) || profit.toString() == '0' ? '$0' : `$${Number(profit).toFixed(2)}`}
                 </p>
     },
     {
