@@ -87,7 +87,7 @@ const columns = [
         id: 'roas',
         align: 'center',
         label: 'ROAS',
-        render: roas => { isEmpty(roas) ?<div /> : <p>{`$${(roas * 100).toFixed}`}</p> }
+        render: roas => { isEmpty(roas) ?<div /> : <p>{`$${parseInt(roas * 100)}%`}</p> }
     },
 ];
 
