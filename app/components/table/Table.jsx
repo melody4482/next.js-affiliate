@@ -25,6 +25,7 @@ export default function CustomizedTables(props) {
     const handlePageChange = target => {
         setState({...state, current: target});
     }
+    console.log(props.data)
 
     return (
         <div style={{ width: '100%', marginBottom: '100px   ' }}>
