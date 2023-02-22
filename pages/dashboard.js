@@ -79,7 +79,7 @@ const columns = [
                 <p 
                     style={parseFloat(profit) < 0 ? {color: 'red'} : {color: '#fff'}}
                 >
-                    {`$${profit.toFixed(2)}`}
+                    {`$${parseFloat(profit).toFixed(2)}`}
                 </p>
             }
     },
