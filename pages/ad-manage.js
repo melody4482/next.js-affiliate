@@ -93,7 +93,6 @@ const AdManager = () => {
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
         var index = 1;
-        console.log(infuseData, plugData);
         setState({
             ...state,
             mediaSources: [
@@ -143,7 +142,6 @@ const AdManager = () => {
         setState({ ...state, isAdLoading: true });
 
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
-        console.log(tiktokData)
         var index = 1;
         setState({
             ...state,
@@ -224,8 +222,7 @@ const AdManager = () => {
     }
 
     const handleDataSave = async () => {
-        const result = await addRevenue(state.data.map(item => ({name: item.name, offer: item.offer, adGroupId: item.adgroupId})));
-        console.log(result);
+        await addRevenue(state.data.map(item => ({name: item.name, offer: item.offer, adGroupId: item.adgroupId})));
         // setContext({...context, ad_data: state.data});
         // router.push('/dashboard');
     }
