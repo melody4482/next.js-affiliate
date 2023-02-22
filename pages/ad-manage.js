@@ -117,12 +117,11 @@ const AdManager = () => {
     }
 
     const getAdSets = async () => {
-        if (isEmpty(state.plugAccount)) {
-            alert('error');
-            return;
-        }
-        setState({ ...state, isAdLoading: true });
-
+        // if (isEmpty(state.plugAccount)) {
+        //     alert('error');
+        //     return;
+        // }
+        // setState({ ...state, isAdLoading: true });
         // const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
         // var index = 1;
         // setState({
@@ -136,6 +135,7 @@ const AdManager = () => {
         //     isAdLoading: false,
         // });
         // return;
+
         if (isEmpty(state.tiktokAccount)) {
             alert('error');
             return;

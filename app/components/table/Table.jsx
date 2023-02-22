@@ -64,14 +64,14 @@ export default function CustomizedTables(props) {
                             </TableRow>
                              : !isEmpty(props.data) ?
                                 props.data.map(item => 
-                                    <TableRow key={item.no} hover>
+                                    <TableRow key={item.key} hover>
                                         {props.columns.map(col => 
                                             <StyledTableCell
                                                 align={`${isEmpty(col.align) ? 'center' : col.align}`}
                                                 style={isEmpty(col.style) ? {} : col.style}
                                             >
                                                 {
-                                                    isEmpty(col.render) ? item[col.id] : col.render(col.id, item.no)                                       
+                                                    isEmpty(col.render) ? item[col.id] : col.render(col.id, item.key)                                       
                                                 }
                                             </StyledTableCell>)}
                                     </TableRow>)

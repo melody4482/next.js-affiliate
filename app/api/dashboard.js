@@ -168,10 +168,10 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     return {
                         no: index ++,
                         name: item.name,
-                        roas: Math.ceil(item.revenue / adset.spend),
-                        profit: Math.ceil(item.revenue - adset.spend),
+                        roas: isEmpty(adset) ? 0 : Math.ceil(item.revenue / adset.spend),
+                        profit: isEmpty(adset) ? 0 : Math.ceil(item.revenue - adset.spend),
                         revenue: item.revenue,
-                        spend: adset.spend,
+                        spend: isEmpty(adset) ? 0 : adset.spend,
                         offer: item.offer
                     };
                 });

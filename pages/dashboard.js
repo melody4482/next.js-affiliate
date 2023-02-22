@@ -114,7 +114,7 @@ export default function Dashboard() {
     }
 
     const handleSearchDate = (e) => {
-        setDate({ [e.name]: e.value })
+        setDate({...date, [e.name]: e.value })
     }
 
     const handleAccountSelect = (accountType, accountContent) => {
@@ -165,7 +165,7 @@ export default function Dashboard() {
                     <BasicTable 
                         isLoading={loading} 
                         columns={columns} 
-                        data={revenues} 
+                        data={ isEmpty(revenues) ? [] : revenues.map(item => ({...item, key: item.no}))} 
                     />
                 </Grid>
             </Grid>
