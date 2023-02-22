@@ -64,6 +64,7 @@ const columns = [
         id: 'spend',
         align: 'center',
         label: 'Spend',
+        render: spend => { isEmpty(spend) ?<div /> : <p>{`$${spend.toFixed(2)}`}</p> }
     },
     {
         id: 'profit',
@@ -71,12 +72,22 @@ const columns = [
         label: 'Profit',
         style: {
             color: 'green'
-        }
+        },
+        render: profit => { 
+            isEmpty(profit) ?
+                <div /> : 
+                <p 
+                    style={parseFloat(profit) < 0 ? {color: 'red'} : {color: '#fff'}}
+                >
+                    {`$${profit.toFixed(2)}`}
+                </p>
+            }
     },
     {
         id: 'roas',
         align: 'center',
         label: 'ROAS',
+        render: roas => { isEmpty(roas) ?<div /> : <p>{`$${(roas * 100).toFixed}`}</p> }
     },
 ];
 

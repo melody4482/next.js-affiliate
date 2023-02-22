@@ -168,8 +168,8 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     return {
                         no: index ++,
                         name: item.name,
-                        roas: isEmpty(adset) ? 0 : Math.ceil(item.revenue / adset.spend),
-                        profit: isEmpty(adset) ? 0 : Math.ceil(item.revenue - adset.spend),
+                        roas: isEmpty(adset) ? 0 : item.revenue / adset.spend,
+                        profit: isEmpty(adset) ? 0 : item.revenue - adset.spend,
                         revenue: item.revenue,
                         spend: isEmpty(adset) ? 0 : adset.spend,
                         offer: item.offer
