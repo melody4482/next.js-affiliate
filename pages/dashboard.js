@@ -54,7 +54,7 @@ const columns = [
         id: 'revenue',
         align: 'center',
         label: 'Revenue',
-        render: revenue => <p>{isEmpty(revenue) ? 0 : `$${Number(spend).toFixed(2)}`}</p>
+        render: revenue => <p>{isEmpty(revenue) ? 0 : `$${Number(revenue).toFixed(2)}`}</p>
     },
     // {
     //     id: 'offer',
