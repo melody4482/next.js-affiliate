@@ -51,9 +51,19 @@ const columns = [
         },
     },
     {
-        id: 'roas',
+        id: 'revenue',
         align: 'center',
-        label: 'ROAS',
+        label: 'Revenue',
+    },
+    // {
+    //     id: 'offer',
+    //     align: 'center',
+    //     label: 'Offer',
+    // },
+    {
+        id: 'spend',
+        align: 'center',
+        label: 'Spend',
     },
     {
         id: 'profit',
@@ -64,19 +74,9 @@ const columns = [
         }
     },
     {
-        id: 'revenue',
+        id: 'roas',
         align: 'center',
-        label: 'Revenue',
-    },
-    {
-        id: 'spend',
-        align: 'center',
-        label: 'Spend',
-    },
-    {
-        id: 'offer',
-        align: 'center',
-        label: 'Offer',
+        label: 'ROAS',
     },
 ];
 
