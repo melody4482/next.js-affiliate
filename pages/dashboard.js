@@ -64,7 +64,7 @@ const columns = [
         id: 'spend',
         align: 'center',
         label: 'Spend',
-        render: spend => { isEmpty(spend) ?<div /> : <p>{`$${spend.toFixed(2)}`}</p> }
+        render: spend => { isEmpty(spend) ?<div /> : <p>{`$${parseFloat(spend).toFixed(2)}`}</p> }
     },
     {
         id: 'profit',
