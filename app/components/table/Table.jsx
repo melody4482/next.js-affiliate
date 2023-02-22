@@ -25,7 +25,6 @@ export default function CustomizedTables(props) {
     const handlePageChange = target => {
         setState({...state, current: target});
     }
-    console.log(props.data)
 
     return (
         <div style={{ width: '100%', marginBottom: '100px   ' }}>
@@ -72,7 +71,7 @@ export default function CustomizedTables(props) {
                                                 style={isEmpty(col.style) ? {} : col.style}
                                             >
                                                 {
-                                                    isEmpty(col.render) ? item[col.id] : col.render(col.id, item.key)                                       
+                                                    isEmpty(col.render) ? item[col.id] : col.render(item[col.id], col.id, item.key)                                       
                                                 }
                                             </StyledTableCell>)}
                                     </TableRow>)
