@@ -54,7 +54,7 @@ const columns = [
         id: 'revenue',
         align: 'center',
         label: 'Revenue',
-        render: revenue => <p>{`$${revenue}`}</p>
+        render: revenue => <p>{isEmpty(revenue) == '0' ? '$0' : '$' + `${Number(revenue).toFixed(2)}`}</p>
     },
     // {
     //     id: 'offer',
@@ -65,7 +65,7 @@ const columns = [
         id: 'spend',
         align: 'center',
         label: 'Spend',
-        render: spend => <p>{`$${spend}`}</p>
+        render: spend => <p>{isEmpty(spend) == '0' ? '$0' : '$' + `${Number(spend).toFixed(2)}`}</p>
     },
     {
         id: 'profit',
@@ -78,14 +78,14 @@ const columns = [
                 <p 
                     style={profit < 0 ? {color: 'red'} : {color: '#fff'}}
                 >
-                    {`$${profit}`}
+                    {isEmpty(profit) == '0' ? '$0' : '$' + `${Number(profit).toFixed(2)}`}
                 </p>
     },
     {
         id: 'roas',
         align: 'center',
         label: 'ROAS',
-        render: roas => <p>{`${roas * 100}%`}</p>
+        render: roas => <p>{isEmpty(roas) ? `0%` : `${Number(roas) * 100}%`}</p>
     },
 ];
 
