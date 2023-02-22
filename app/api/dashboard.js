@@ -1,4 +1,6 @@
 // Created by MelodyDev 02/17/2023
+import proxyApi from "../config/proxyApi"
+import isEmpty from "is-empty"
 
 /**
  * @params {startDate, endDate}
@@ -6,12 +8,11 @@
  */
 export const getInfuse = async (startDate, endDate) => {
     return fetch(
-        `https://fluent.api.hasoffers.com/Apiv3/json?api_key=36b3999c96af210dc8e5ed4a2a73f8ada2e8248f27d550ef3f2ce126dd3ccb0e&Target=Affiliate_Report&Method=getStats&fields[]=Stat.clicks&fields[]=Stat.source&fields[]=Stat.payout&fields[]=Offer.name&filters[Stat.date][conditional]=BETWEEN&filters[Stat.date][values][]=${startDate}&filters[Stat.date][values][]=${endDate}&filters[Stat.payout][conditional]=GREATER_THAN&filters[Stat.payout][values]=0.01&sort[Stat.payout]=desc`,
+        `https://fluent.api.hasoffers.com/Apiv3/json?api_key=36b3999c96af210dc8e5ed4a2a73f8ada2e8248f27d550ef3f2ce126dd3ccb0e&Target=Affiliate_Report&Method=getStats&fields[]=Stat.source&fields[]=Stat.payout&fields[]=Stat.clicks&filters[Stat.date][conditional]=BETWEEN&filters[Stat.date][values][]=${startDate}&filters[Stat.date][values][]=${endDate}&filters[Stat.payout][conditional]=GREATER_THAN&filters[Stat.payout][values]=.01&sort[Stat.payout]=desc`,
         { method: 'GET' }
     )
         .then((res) => res.json())
         .then((data) => {
-            // console.log(data.response.data)
             return data.response.data
         })
         .catch((err) => {
@@ -102,4 +103,78 @@ export const getTiktok = async (startDate, endDate, advertiser_id) => {
         .catch((err) => {
             console.log(err)
         })
+}
+
+
+export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
+    return fetch(
+        `${proxyApi}api/revenue`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(async data => {
+            const infuseData = await getInfuse(start, end);
+            var plugData = await getPlug(start, end, bearerToken);
+            plugData = isEmpty(plugData.data) ? { data: [] } : plugData;
+            var index = 1;
+            const mediaSources = [
+                    ...infuseData.data.map((item) => ({
+                        no: index++,
+                        icon: '',
+                        name: item.Stat.source,
+                        revenue: parseFloat(item.Stat.payout),
+                        // offer: item.Offer.name,
+                        offer: ''
+                    })),
+                    ...plugData.data.map((item) => ({
+                        no: index++,
+                        icon: item.campaign_image_url,
+                        name: item.media_name,
+                        revenue: parseFloat(item.dollars),
+                        offer: item.campaign_name,
+                    })),
+                ];
+    
+            // const tiktokdata = await getPlug(start, end, bearerToken);
+            // index = 1;
+            // const adSets = tiktokdata.data.map((item) => ({
+            //         no: index ++,
+            //         adgroupId: item.media,
+            //         spend: parseFloat(item.dollars),
+            //         adgroupName: item.campaign_name,
+            //     }));
+    
+            const tiktokData = await getTiktok(start, end, advertiser_id);
+            index = 1;
+            const adSets = tiktokData.list.map((item) => ({
+                    no: index ++,
+                    adgroupId: item.dimensions.adgroup_id,
+                    spend: item.metrics.spend,
+                    adgroupName: item.metrics.adgroup_name,
+                }));
+
+                
+            index = 1;
+            const result = mediaSources
+                .filter(item => data.filter(i => item.name === i.name).length !== 0)
+                .map(item => {
+                    const adset = adSets.filter(ad => {
+                        return ad.adgroupId == data.filter(i => item.name == i.name)[0].adGroupId
+                    })[0];
+                    return {
+                        no: index ++,
+                        name: item.name,
+                        roas: Math.ceil(item.revenue / adset.spend),
+                        profit: Math.ceil(item.revenue - adset.spend),
+                        revenue: item.revenue,
+                        spend: adset.spend,
+                        offer: item.offer
+                    };
+                });
+            return result;
+        });
 }

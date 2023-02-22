@@ -101,7 +101,8 @@ const AdManager = () => {
                     icon: '',
                     name: item.Stat.source,
                     revenue: parseFloat(item.Stat.payout),
-                    offer: item.Offer.name,
+                    // offer: item.Offer.name,
+                    offer: ''
                 })),
                 ...plugData.data.map((item) => ({
                     no: index++,
@@ -116,11 +117,11 @@ const AdManager = () => {
     }
 
     const getAdSets = async () => {
-        // if (isEmpty(state.plugAccount)) {
-        //     alert('error');
-        //     return;
-        // }
-        // setState({ ...state, isAdLoading: true });
+        if (isEmpty(state.plugAccount)) {
+            alert('error');
+            return;
+        }
+        setState({ ...state, isAdLoading: true });
 
         // const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
         // var index = 1;
@@ -128,7 +129,7 @@ const AdManager = () => {
         //     ...state,
         //     adSets: tiktokdata.data.map((item) => ({
         //         no: index ++,
-        //         adgroupId: item.campaign_image_url,
+        //         adgroupId: item.media,
         //         spend: parseFloat(item.dollars),
         //         adgroupName: item.campaign_name,
         //     })),
@@ -222,9 +223,15 @@ const AdManager = () => {
     }
 
     const handleDataSave = async () => {
-        await addRevenue(state.data.map(item => ({name: item.name, offer: item.offer, adGroupId: item.adgroupId})));
+        await addRevenue(state.data.map(item => ({
+            name: item.name, 
+            offer: item.offer, 
+            adGroupId: item.adgroupId,
+            advertiserId: state.tiktokAccount.id,
+            bearerToken: state.plugAccount.id
+        })));
         // setContext({...context, ad_data: state.data});
-        // router.push('/dashboard');
+        router.push('/dashboard');
     }
 
     const handleAccountSelect = (accountType, account) => {

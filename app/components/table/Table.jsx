@@ -45,20 +45,7 @@ export default function CustomizedTables(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {!isEmpty(props.data) ? (
-                            props.data.map(item => 
-                                <TableRow key={item.no} hover>
-                                    {props.columns.map(col => 
-                                        <StyledTableCell
-                                            align={`${isEmpty(col.align) ? 'center' : col.align}`}
-                                            style={isEmpty(col.style) ? {} : col.style}
-                                        >
-                                            {
-                                                isEmpty(col.render) ? item[col.id] : col.render(col.id, item.no)                                       
-                                            }
-                                        </StyledTableCell>)}
-                                </TableRow>)
-                        ) : (
+                        {props.isLoading ? 
                             <TableRow>
                                 <StyledTableCell
                                     align="center"
@@ -70,19 +57,48 @@ export default function CustomizedTables(props) {
                                         height={60}
                                         priority
                                         alt="dropbox"
-                                        src={`/dropbox.png`}
+                                        src={`/loading.svg`}
+                                        style={{ margin: '200px auto' }}
                                     />
-                                    <p
-                                        style={{
-                                            marginTop: '-3px',
-                                            color: 'rgba(255,255,255,0.5)',
-                                        }}
-                                    >
-                                        No Data
-                                    </p>
                                 </StyledTableCell>
                             </TableRow>
-                        )}
+                             : !isEmpty(props.data) ?
+                                props.data.map(item => 
+                                    <TableRow key={item.no} hover>
+                                        {props.columns.map(col => 
+                                            <StyledTableCell
+                                                align={`${isEmpty(col.align) ? 'center' : col.align}`}
+                                                style={isEmpty(col.style) ? {} : col.style}
+                                            >
+                                                {
+                                                    isEmpty(col.render) ? item[col.id] : col.render(col.id, item.no)                                       
+                                                }
+                                            </StyledTableCell>)}
+                                    </TableRow>)
+                                : <TableRow>
+                                    <StyledTableCell
+                                        align="center"
+                                        colSpan={props.columns.length}
+                                        style={{ height: '50vh' }}
+                                    >
+                                        <Image
+                                            width={60}
+                                            height={60}
+                                            priority
+                                            alt="dropbox"
+                                            src={`/dropbox.png`}
+                                        />
+                                        <p
+                                            style={{
+                                                marginTop: '-3px',
+                                                color: 'rgba(255,255,255,0.5)',
+                                            }}
+                                        >
+                                            No Data
+                                        </p>
+                                    </StyledTableCell>
+                                </TableRow>
+                        }
                         {/*<TableRow>
                             <StyledTableCell colSpan={8} style={{width: '100%'}}>
                                 <TablePagination
