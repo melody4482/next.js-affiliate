@@ -8,7 +8,7 @@ export const addRevenue = revenue => {
             },
             body: JSON.stringify({ revenues: revenue })            
         })
-        .then(res => res.json)
+        .then(res => res.json())
         .then(data => console.log(data));
 }
 

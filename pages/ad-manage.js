@@ -10,6 +10,7 @@ import isEmpty from 'is-empty'
 import AdSetList from '../app/components/ad-manage/AdSetList'
 import ConnectedList from '../app/components/ad-manage/ConnectedList'
 import BasicSelect from '../app/components/BasicSelect'
+import { addRevenue } from '../app/api/revenue'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
@@ -222,9 +223,11 @@ const AdManager = () => {
         });
     }
 
-    const handleDataSave = () => {
-        setContext({...context, ad_data: state.data});
-        router.push('/dashboard');
+    const handleDataSave = async () => {
+        const result = await addRevenue(state.data.map(item => ({name: item.name, offer: item.offer, adGroupId: item.adgroupId})));
+        console.log(result);
+        // setContext({...context, ad_data: state.data});
+        // router.push('/dashboard');
     }
 
     const handleAccountSelect = (accountType, account) => {
@@ -322,7 +325,7 @@ const AdManager = () => {
                                     style={{ backgroundColor: '#363636' }}
                                     onClick={handleDataSave}
                                 >
-                                    Open Result in Dashboard
+                                    Add Connection Revenues
                                 </StyledButton>
                             </Grid>
                         </Grid>
