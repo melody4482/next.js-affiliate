@@ -150,7 +150,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
     
             const tiktokData = await getTiktok(start, end, advertiser_id);
             index = 1;
-            const adSets = tiktokData.list.map((item) => ({
+            const adSets = isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
                     no: index ++,
                     adgroupId: item.dimensions.adgroup_id,
                     spend: item.metrics.spend,
