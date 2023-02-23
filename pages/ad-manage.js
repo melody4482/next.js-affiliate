@@ -106,7 +106,7 @@ const AdManager = () => {
             alert('error');
             return;
         }
-        setState({ ...state, isMediaLoading: true })
+        setState({ ...state, isMediaLoading: true, mediaSources: [] })
         const infuseData = await getInfuse(state.startDate, state.endDate)
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
 
@@ -143,28 +143,12 @@ const AdManager = () => {
     }
 
     const getAdSets = async () => {
-        // if (isEmpty(state.plugAccount)) {
-        //     alert('error');
-        //     return;
-        // }
-        // setState({ ...state, isAdLoading: true });
-        // const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
-        // var index = 1;
-        // var adSets = tiktokdata.data.map((item) => ({
-        //     no: index ++,
-        //     adgroupId: item.media,
-        //     spend: parseFloat(item.dollars),
-        //     adgroupName: item.campaign_name,
-        // }));
-        // adSets = await excludeConnectedRevenues('tiktok', adSets);
-        // setState({...state, adSets: adSets, isAdLoading: false});
-        // return;
 
         if (isEmpty(state.tiktokAccount)) {
             alert('error');
             return;
         }
-        setState({ ...state, isAdLoading: true });
+        setState({ ...state, isAdLoading: true, adSets: [] });
 
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
