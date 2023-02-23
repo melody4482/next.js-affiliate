@@ -207,26 +207,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             //     }));
             // }
 
-            index = 1;
-            const result = mediaSources
-                .filter(item => data.filter(i => item.name === i.name).length !== 0)
-                .map(item => {
-                    const revenueData = data.filter(i => item.name == i.name)[0]
-                    const adset = adSets.filter(ad => {
-                        return ad.adgroupId == revenueData.adGroupId
-                    })[0];
-                    return {
-                        no: index ++,
-                        _id: revenueData._id,
-                        name: item.name,
-                        roas: isEmpty(adset) ? 0 : item.revenue / adset.spend,
-                        profit: isEmpty(adset) ? 0 : item.revenue - adset.spend,
-                        revenue: item.revenue,
-                        spend: isEmpty(adset) ? 0 : adset.spend,
-                        offer: item.offer
-                    };
-                });
-            return result;
+
         });
 }
 
