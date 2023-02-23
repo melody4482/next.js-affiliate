@@ -139,7 +139,7 @@ const AdManager = () => {
         // setState({...state, adSets: adSets, isAdLoading: false});
         // return;
 
-        if (!isEmpty(state.tiktokAccount)) {
+        if (isEmpty(state.tiktokAccount)) {
             alert('error');
             return;
         }
@@ -148,7 +148,7 @@ const AdManager = () => {
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
         var adSets = [];
-        if (isEmpty(tiktokData)) {
+        if (!isEmpty(tiktokData)) {
             adSets = tiktokData.list.map((item) => ({
                 no: index ++,
                 adgroupId: item.dimensions.adgroup_id,
