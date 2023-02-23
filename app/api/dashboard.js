@@ -160,6 +160,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             var tiktokData = [];
             var adSets = [];
             index = 1;
+            console.log(mediaSources)
 
             if (advertiser_id === 'all') {
                 tiktokAccounts.forEach(async item => {
@@ -183,6 +184,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     adgroupName: item.metrics.adgroup_name,
                 }));
             }
+            console.log(adset)
 
             // if (advertiser_id === 'all') {
             //     plugAccounts.forEach(async item => {
