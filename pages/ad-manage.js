@@ -172,62 +172,6 @@ const AdManager = () => {
         }
     }
 
-    const handleDataChange = key => {
-        const removeData = state.data.filter(item => item.no === key)[0];
-        setState({
-            ...state, 
-            mediaSources: [
-                ...state.mediaSources, 
-                { no: removeData.mediaSources, name: removeData.name, offer: removeData.offer, revenue: removeData.revenue, icon: removeData.icon },
-            ],
-            adSets: [
-                ...state.adSets,
-                { no: removeData.adSets, adgroupId: removeData.adgroupId, adgroupName: removeData.adgroupName, spend: removeData.spend }
-            ],
-            data: state.data.filter(item => item.no !== key)
-        });
-    }
-
-    const handleDataRemove = () => {
-        const mediaSource = 
-            state.data.map(item => ({
-                no: item.mediaSources, 
-                icon: item.icon, 
-                name: item.name, 
-                revenue: item.revenue, 
-                offer: item.offer
-            }));
-        const adSets = 
-            state.data.map(item => ({
-                no: item.adSets, 
-                adgroupId: item.adgroupId, 
-                adgroupName: item.adgroupName, 
-                spend: item.spend
-            }));
-
-        setState({
-            ...state, 
-            mediaSources: [...state.mediaSources, mediaSource], 
-            adSets: [...state.adSets, adSets]
-        });
-    }
-
-    const handleDataSave = async () => {
-        await addRevenue(state.data.map(item => ({
-            name: item.name, 
-            offer: item.offer, 
-            adGroupId: item.adgroupId,
-            advertiserId: state.tiktokAccount.id,
-            bearerToken: state.plugAccount.id
-        })));
-        // setContext({...context, ad_data: state.data});
-        router.push('/dashboard');
-    }
-
-    const handleAccountSelect = (accountType, account) => {
-        setState({ ...state, [accountType]: account });
-    }
-
     return (
         <Grid container item md={10} sm={11} rowSpacing={2} style={{ margin: '30px auto' }}>
             <Grid container item spacing={2} xs={12} direction={"row"} justifyContent={"space-between"}>
