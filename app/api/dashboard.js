@@ -83,7 +83,7 @@ export const getTiktok = async (startDate, endDate, advertiser_id) => {
      * @desc Get Tiktok data with JSON type
      */
     return fetch(
-        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=${advertiser_id}&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=50&start_date=${startDate}&end_date=${endDate}`,
+        `https://business-api.tiktok.com/open_api/v1.3/report/integrated/get/?advertiser_id=${advertiser_id}&page=1&data_level=AUCTION_ADGROUP&report_type=BASIC&dimensions=["adgroup_id"]&metrics=["adgroup_name","spend"]&page_size=500&start_date=${startDate}&end_date=${endDate}`,
         { 
             method: 'GET',
             headers: {
@@ -162,8 +162,10 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             index = 1;
 
             if (advertiser_id === 'all') {
+                console.log('all');
                 tiktokAccounts.forEach(async item => {
                     tiktokData = await getTiktok(start, end, item.value);
+                    console.log(tiktokData);
                     adSets = [
                         ...adSets,
                         isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
