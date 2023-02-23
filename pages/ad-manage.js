@@ -12,6 +12,7 @@ import ConnectedList from '../app/components/ad-manage/ConnectedList'
 import BasicSelect from '../app/components/BasicSelect'
 import { addRevenue, getRevenues } from '../app/api/revenue'
 import { tiktokAccounts, plugAccounts } from '../app/config/accounts'
+import dayjs from 'dayjs'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
