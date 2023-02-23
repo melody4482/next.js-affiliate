@@ -13,6 +13,7 @@ import BasicDatePicker from '../app/components/DatePicker'
 import BasicSelect from '../app/components/BasicSelect';
 import { tiktokAccounts, plugAccounts } from '../app/config/accounts';
 import DeleteIcon from '@mui/icons-material/Delete';
+import style from 'styled-components'
 
 export const StyledButton = styled(Button)(() => ({
     [`&`]: {
@@ -23,6 +24,10 @@ export const StyledButton = styled(Button)(() => ({
         textAlign: 'center'
     }
 }));
+
+export const P = style.p`
+    margin: 0;
+`
 
 export default function Dashboard() {
     const [loading, setLoading] = React.useState(false);
@@ -89,13 +94,13 @@ export default function Dashboard() {
             id: 'revenue',
             align: 'center',
             label: 'Revenue',
-            render: revenue => <p>{`$${revenue.toFixed(2)}`}</p>
+            render: revenue => <P>{`$${revenue.toFixed(2)}`}</P>
         },
         {
             id: 'spend',
             align: 'center',
             label: 'Spend',
-            render: spend => <p>{`$${Number(spend).toFixed(2)}`}</p>
+            render: spend => <P>{`$${Number(spend).toFixed(2)}`}</P>
         },
         {
             id: 'profit',
@@ -105,29 +110,28 @@ export default function Dashboard() {
                 color: 'green'
             },
             render: profit => 
-                    <p 
+                    <P 
                         style={profit > 0 ? {color: 'green'} : profit < 0 ? {color: 'red'} : {color: '#fff'}}
                     >
                         {`$${Number(profit).toFixed(2)}`}
-                    </p>
+                    </P>
         },
         {
             id: 'roas',
             align: 'center',
             label: 'ROAS',
-            render: roas => <p>{(Number(roas) * 100).toFixed() + ' %'}</p>
+            render: roas => <P>{(Number(roas) * 100).toFixed() + ' %'}</P>
         },
         {
             id: 'delete',
             align: 'center',
             label: '',
             style: {
-                width: '30px',
                 padding: '0'
             },
             render: (item, col) =>  
                 <Button
-                    style={{ cursor: 'pointer', margin: '0', paddin: '0' }} 
+                    style={{ cursor: 'pointer', padding: '0' }} 
                     onClick={() => handleRevenueDelete(col.key)}
                 >
                     <DeleteIcon style={{color: 'red'}} />
@@ -137,25 +141,27 @@ export default function Dashboard() {
 
 
     return (
-        <Grid item container xl={8} lg={10} xs={11} justifyContent="center" margin={"auto"}>
+        <Grid item container md={10} sm={11} xs={11} justifyContent="center" margin={"auto"}>
             <Grid container item rowSpacing={1} direction="column" marginTop="50px">
-                <Grid container item justifyContent={"space-between"}>
-                    <Grid container item md={2}>
-                        <BasicDatePicker 
-                            name='start' 
-                            value={date.start} 
-                            onchange={handleSearchDate} 
-                        />
+                <Grid container item spacing={1} justifyContent={"space-around"}>
+                    <Grid container item spacing={1} lg={4} md={5} sm={6}>
+                        <Grid container item xs={6}>
+                            <BasicDatePicker 
+                                name='start' 
+                                value={date.start} 
+                                onchange={handleSearchDate} 
+                            />
+                        </Grid>
+                        <Grid container item xs={6}>
+                            <BasicDatePicker 
+                                name='end' 
+                                value={date.end} 
+                                onchange={handleSearchDate} 
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid container item md={2}>
-                        <BasicDatePicker 
-                            name='end' 
-                            value={date.end} 
-                            onchange={handleSearchDate} 
-                        />
-                    </Grid>
-                    <Grid container item direction={"row"} spacing={2} md={5} sm={5} xs={12}>
-                        <Grid container item xs={3}>
+                    <Grid container item direction={"row"} spacing={1} md={5} sm={6} xs={4}>
+                        <Grid container item xs={6}>
                             <BasicSelect
                                 name="plugAccount" 
                                 label="Plug Account" 
@@ -163,7 +169,7 @@ export default function Dashboard() {
                                 data={[{name: 'All', value: 'all'}, ...plugAccounts]} 
                             />
                         </Grid>
-                        <Grid container item xs={3}>
+                        <Grid container item xs={6}>
                             <BasicSelect 
                                 name="tiktokAccount" 
                                 label="Tiktok Account" 
@@ -171,9 +177,9 @@ export default function Dashboard() {
                                 data={[{name: 'All', value: 'all'}, ...tiktokAccounts]} 
                             />
                         </Grid>
-                        <Grid container item xs={3}>
-                            <Button onClick={getRevenues}>Get Connection</Button>
-                        </Grid>
+                    </Grid>
+                    <Grid container item md={3} sm={12} xs={12}>
+                        <Button onClick={getRevenues} style={{width: '100%', textAlign: 'center'}}>Get Connection</Button>
                     </Grid>
                 </Grid>
                 <Grid item container>

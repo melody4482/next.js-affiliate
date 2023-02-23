@@ -298,6 +298,12 @@ const AdManager = () => {
                                         onchange={handleDataChange}
                                         onremove={handleDataRemove}
                                     />
+                                        <StyledButton
+                                            style={{ backgroundColor: '#363636', marginTop: '15px' }}
+                                            onClick={handleDataSave}
+                                        >
+                                            Add Connection Revenues
+                                        </StyledButton>
                                 </Grid>
                                 <Grid container item md={3} xs={6}>
                                     <AdSetList
@@ -313,14 +319,6 @@ const AdManager = () => {
                                     onchange={handleDataChange}
                                     onremove={handleDataRemove}
                                 />
-                            </Grid>
-                            <Grid container item>
-                                <StyledButton
-                                    style={{ backgroundColor: '#363636' }}
-                                    onClick={handleDataSave}
-                                >
-                                    Add Connection Revenues
-                                </StyledButton>
                             </Grid>
                         </Grid>
                     </Grid>
