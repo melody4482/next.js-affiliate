@@ -160,7 +160,6 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             var tiktokData = [];
             var adSets = [];
             index = 1;
-            console.log(mediaSources)
 
             if (advertiser_id === 'all') {
                 tiktokAccounts.forEach(async item => {
@@ -184,7 +183,6 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     adgroupName: item.metrics.adgroup_name,
                 }));
             }
-            console.log(adSets)
 
             // if (advertiser_id === 'all') {
             //     plugAccounts.forEach(async item => {
@@ -210,25 +208,27 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             // }
 
             index = 1;
-            const result = mediaSources
-                .filter(item => data.filter(i => item.name === i.name).length !== 0)
-                .map(item => {
-                    const revenueData = data.filter(i => item.name == i.name)[0]
-                    const adset = adSets.filter(ad => {
-                        return ad.adgroupId == revenueData.adGroupId
-                    })[0];
-                    console.log(adset)
-                    // return {
-                    //     no: index ++,
-                    //     _id: revenueData._id,
-                    //     name: item.name,
-                    //     roas: item.revenue / adset.spend,
-                    //     profit: item.revenue - adset.spend,
-                    //     revenue: item.revenue,
-                    //     spend: adset.spend,
-                    //     offer: item.offer
-                    // };
-                });
+            const result = [];
+            mediaSources.forEach(item => {
+                var isMatch = data.filter(i => item.name == i.name).length !== 0 ? true : false;
+                if (isMatch) {
+                    const adset = adSets.filter(ad => ad.adgroupId == data.filter(i => item.name == i.name)[0].adGroupId)[0];
+                    console.log(item, adset);
+                    if (!isEmpty(adset)) {
+                        result.push({
+                            no: index ++,
+                            _id: revenueData._id,
+                            name: item.name,
+                            roas: item.revenue / adset.spend,
+                            profit: item.revenue - adset.spend,
+                            revenue: item.revenue,
+                            spend: Number(adset).spend,
+                            offer: item.offer
+                        });
+                    }
+                }
+            });
+
             return result;
         });
 }
