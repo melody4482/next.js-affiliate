@@ -217,16 +217,17 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     const adset = adSets.filter(ad => {
                         return ad.adgroupId == revenueData.adGroupId
                     })[0];
-                    return {
-                        no: index ++,
-                        _id: revenueData._id,
-                        name: item.name,
-                        roas: item.revenue / adset.spend,
-                        profit: item.revenue - adset.spend,
-                        revenue: item.revenue,
-                        spend: adset.spend,
-                        offer: item.offer
-                    };
+                    console.log(adset)
+                    // return {
+                    //     no: index ++,
+                    //     _id: revenueData._id,
+                    //     name: item.name,
+                    //     roas: item.revenue / adset.spend,
+                    //     profit: item.revenue - adset.spend,
+                    //     revenue: item.revenue,
+                    //     spend: adset.spend,
+                    //     offer: item.offer
+                    // };
                 });
             return result;
         });
