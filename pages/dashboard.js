@@ -67,6 +67,9 @@ export default function Dashboard() {
             id: 'no',
             align: 'center',
             label: 'no',
+            style: {
+                width: '30px'
+            }
         },
         {
             id: 'icon',
@@ -127,7 +130,8 @@ export default function Dashboard() {
             align: 'center',
             label: '',
             style: {
-                padding: '0'
+                padding: '0',
+                width: '30px'
             },
             render: (item, col) =>  
                 <Button
