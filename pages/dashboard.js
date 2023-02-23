@@ -15,6 +15,8 @@ import { tiktokAccounts, plugAccounts } from '../app/config/accounts';
 import DeleteIcon from '@mui/icons-material/Delete';
 import style from 'styled-components'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
 export const StyledButton = styled(Button)(() => ({
     [`&`]: {
@@ -29,6 +31,8 @@ export const StyledButton = styled(Button)(() => ({
 export const P = style.p`
     margin: 0;
 `
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function Dashboard() {
     const [loading, setLoading] = React.useState(false);
