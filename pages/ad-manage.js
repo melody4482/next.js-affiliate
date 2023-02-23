@@ -89,6 +89,7 @@ const AdManager = () => {
         setState({ ...state, isMediaLoading: true })
         const infuseData = await getInfuse(state.startDate, state.endDate)
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
+        console.log(plugData);
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
         var index = 1;
         var mediaSources = [
