@@ -72,9 +72,24 @@ const AdManager = () => {
             endDate: dayjs.tz(dayjs(), "EST").format('YYYY-MM-DD'),
         });
     }, []);
-    console.log(state)
+
     const handleSearchDate = (e) => {
         setState({ ...state, [e.name]: e.value })
+    }
+
+    const automaticConnection = () => {
+        if (!isEmpty(state.mediaSources) && !isEmpty(state.adSets)) {
+            var index = state.data.length-1;
+            const connected = [];
+            state.mediaSources.forEach(item => {
+                state.adSets.forEach(ad => {
+                    if (ad.adgroupName === item.name) {
+                        connected.push({...item, ...ad, no: index ++});
+                    }
+                });
+            });
+            setState({...state, data: [...connected, state.data]})
+        }
     }
 
     const excludeConnectedRevenues = async (contentType, contentVal) => {
@@ -124,6 +139,7 @@ const AdManager = () => {
         }
         mediaSources = await excludeConnectedRevenues('media', mediaSources);
         setState({...state, mediaSources: mediaSources, isMediaLoading: false});
+        automaticConnection();
     }
 
     const getAdSets = async () => {
@@ -164,6 +180,7 @@ const AdManager = () => {
         
         adSets = await excludeConnectedRevenues('tiktok', adSets);
         setState({...state, adSets: adSets, isAdLoading: false});
+        automaticConnection();
     }
 
     const handleSourceChange = (dataType, dataKey) => {
