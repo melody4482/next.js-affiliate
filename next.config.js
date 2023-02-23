@@ -3,8 +3,8 @@ module.exports = {
     async rewrites() {
         return [
           {
-            source: '/api/:path*',
-            destination: 'https://api.example.com/:path*',
+            source: 'http://admin.berrygoodmedia.org:3000/*',
+            destination: 'http://54.145.61.200:3000/*',
           },
         ]
     },
