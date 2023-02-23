@@ -15,8 +15,15 @@ export const addRevenue = revenue => {
         });
 }
 
-export const getRevenueList = () => {
-    fetch(`${proxyApi}api/revenue/list`, {method: 'GET'})
+export const getRevenues = () => {
+    return fetch(
+        `${proxyApi}api/revenue`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => data)
 }

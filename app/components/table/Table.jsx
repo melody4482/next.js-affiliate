@@ -26,6 +26,8 @@ export default function CustomizedTables(props) {
         setState({...state, current: target});
     }
 
+    var index = 1;
+
     return (
         <div style={{ width: '100%', marginBottom: '100px   ' }}>
             <StyledTableContainer>
@@ -69,9 +71,10 @@ export default function CustomizedTables(props) {
                                             <StyledTableCell
                                                 align={`${isEmpty(col.align) ? 'center' : col.align}`}
                                                 style={isEmpty(col.style) ? {} : col.style}
+                                                key={`${item.key + index++}`}
                                             >
                                                 {
-                                                    isEmpty(col.render) ? item[col.id] : col.render(item[col.id], col.id, item.key)                                       
+                                                    isEmpty(col.render) ? item[col.id] : col.render(item[col.id], item)                                       
                                                 }
                                             </StyledTableCell>)}
                                     </TableRow>)

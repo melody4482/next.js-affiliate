@@ -10,7 +10,8 @@ import isEmpty from 'is-empty'
 import AdSetList from '../app/components/ad-manage/AdSetList'
 import ConnectedList from '../app/components/ad-manage/ConnectedList'
 import BasicSelect from '../app/components/BasicSelect'
-import { addRevenue } from '../app/api/revenue'
+import { addRevenue, getRevenues } from '../app/api/revenue'
+import { tiktokAccounts, plugAccounts } from '../app/config/accounts'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
@@ -34,21 +35,6 @@ const StyledCard = styled.div`
     border: 1px solid #282727;
     width: 100%;
 `
-
-const tiktokAccounts = [
-    { name: "BGM 03", value: '7156472503018340353' },
-    { name: "BGM - Media Digital", value: '7145102062467006466' },
-    { name: "Plug Co", value: '7060636350755667969' },
-    { name: "Stacks Ads", value: '7060955335363805185' },
-    { name: "Plug 2022", value: '7063596340252573698' },
-    { name: "Pluggy", value: '7054703945205170178' },
-    { name: "New Plug", value: '7068326186375528449' }
-];
-
-const plugAccounts = [
-    { name: "Connor", value: "bearer eyJhbGciOiJIUzI1NiJ9.MTEzODQ0.AdIWT5lcL7KhJzfUUxwRxUaUbSh9dnCt-pCHWlz_f5w" },
-    { name: "Josh", value: "bearer eyJhbGciOiJIUzI1NiJ9.NTg1NTI.abImRgZCkT1k9zhTmXeLexc_QpTL3wEUFEze_IiXOvo" }
-];
 
 const AdManager = () => {
 
@@ -85,6 +71,15 @@ const AdManager = () => {
         setState({ ...state, [e.name]: e.value })
     }
 
+    const excludeConnectedRevenues = async (contentType, contentVal) => {
+        const savedRevenue = await getRevenues();
+        if (contentType === 'media') {
+            return contentVal.filter(item => savedRevenue.filter(i => i.name === item.name).length === 0)
+        } else if (contentType === 'tiktok') {
+            return contentVal.filter(item => savedRevenue.filter(i => i.adGroupId === item.adgroupId).length === 0)
+        }
+    }
+
     const getMediaSource = async () => {
         if (isEmpty(state.plugAccount)) {
             alert('error');
@@ -95,27 +90,24 @@ const AdManager = () => {
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
         var index = 1;
-        setState({
-            ...state,
-            mediaSources: [
-                ...infuseData.data.map((item) => ({
-                    no: index++,
-                    icon: '',
-                    name: item.Stat.source,
-                    revenue: parseFloat(item.Stat.payout),
-                    // offer: item.Offer.name,
-                    offer: ''
-                })),
-                ...plugData.data.map((item) => ({
-                    no: index++,
-                    icon: item.campaign_image_url,
-                    name: item.media_name,
-                    revenue: parseFloat(item.dollars),
-                    offer: item.campaign_name,
-                })),
-            ],
-            isMediaLoading: false,
-        })
+        var mediaSources = [
+            ...infuseData.data.map((item) => ({
+                no: index++,
+                icon: '',
+                name: item.Stat.source,
+                revenue: parseFloat(item.Stat.payout),
+                offer: ''
+            })),
+            ...plugData.data.map((item) => ({
+                no: index++,
+                icon: item.campaign_image_url,
+                name: item.media_name,
+                revenue: parseFloat(item.dollars),
+                offer: item.campaign_name,
+            })),
+        ];
+        mediaSources = await excludeConnectedRevenues('media', mediaSources);
+        setState({...state, mediaSources: mediaSources, isMediaLoading: false});
     }
 
     const getAdSets = async () => {
@@ -126,16 +118,14 @@ const AdManager = () => {
         // setState({ ...state, isAdLoading: true });
         // const tiktokdata = await getPlug(state.startDate, state.endDate, state.plugAccount.id);
         // var index = 1;
-        // setState({
-        //     ...state,
-        //     adSets: tiktokdata.data.map((item) => ({
-        //         no: index ++,
-        //         adgroupId: item.media,
-        //         spend: parseFloat(item.dollars),
-        //         adgroupName: item.campaign_name,
-        //     })),
-        //     isAdLoading: false,
-        // });
+        // var adSets = tiktokdata.data.map((item) => ({
+        //     no: index ++,
+        //     adgroupId: item.media,
+        //     spend: parseFloat(item.dollars),
+        //     adgroupName: item.campaign_name,
+        // }));
+        // adSets = await excludeConnectedRevenues('tiktok', adSets);
+        // setState({...state, adSets: adSets, isAdLoading: false});
         // return;
 
         if (isEmpty(state.tiktokAccount)) {
@@ -146,16 +136,14 @@ const AdManager = () => {
 
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
-        setState({
-            ...state,
-            adSets: tiktokData.list.map((item) => ({
-                no: index ++,
-                adgroupId: item.dimensions.adgroup_id,
-                spend: item.metrics.spend,
-                adgroupName: item.metrics.adgroup_name,
-            })),
-            isAdLoading: false,
-        });
+        var adSets = tiktokData.list.map((item) => ({
+            no: index ++,
+            adgroupId: item.dimensions.adgroup_id,
+            spend: item.metrics.spend,
+            adgroupName: item.metrics.adgroup_name,
+        }));
+        adSets = await excludeConnectedRevenues('tiktok', adSets);
+        setState({...state, adSets: adSets, isAdLoading: false});
     }
 
     const handleSourceChange = (dataType, dataKey) => {

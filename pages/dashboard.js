@@ -8,9 +8,11 @@ import isEmpty from 'is-empty'
 import { addRevenue } from '../app/api/revenue'
 import SaveSharpIcon from '@mui/icons-material/SaveSharp';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { getDataByConnection } from '../app/api/dashboard'
+import { deleteRevenue, getDataByConnection } from '../app/api/dashboard'
 import BasicDatePicker from '../app/components/DatePicker'
-import BasicSelect from '../app/components/BasicSelect'
+import BasicSelect from '../app/components/BasicSelect';
+import { tiktokAccounts, plugAccounts } from '../app/config/accounts';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const StyledButton = styled(Button)(() => ({
     [`&`]: {
@@ -21,88 +23,6 @@ export const StyledButton = styled(Button)(() => ({
         textAlign: 'center'
     }
 }));
-
-const columns = [
-    {
-        id: 'no',
-        align: 'center',
-        label: 'no',
-    },
-    {
-        id: 'icon',
-        align: 'center',
-        label: '',
-        render: icon => {
-            isEmpty(icon) ? 
-                <div /> : <img
-                    width={15}
-                    height={15}
-                    alt={`${icon}`}
-                    src={`${icon}`}
-            />}
-    },
-    {
-        id: 'name',
-        align: 'left',
-        label: 'Name',
-        columnAlign: 'left',
-        style: {
-            width: '30%',
-        },
-    },
-    {
-        id: 'revenue',
-        align: 'center',
-        label: 'Revenue',
-        render: revenue => <p>{`$${revenue.toFixed(2)}`}</p>
-    },
-    // {
-    //     id: 'offer',
-    //     align: 'center',
-    //     label: 'Offer',
-    // },
-    {
-        id: 'spend',
-        align: 'center',
-        label: 'Spend',
-        render: spend => <p>{`$${Number(spend).toFixed(2)}`}</p>
-    },
-    {
-        id: 'profit',
-        align: 'center',
-        label: 'Profit',
-        style: {
-            color: 'green'
-        },
-        render: profit => 
-                <p 
-                    style={profit > 0 ? {color: 'green'} : profit < 0 ? {color: 'red'} : {color: '#fff'}}
-                >
-                    {`$${Number(profit).toFixed(2)}`}
-                </p>
-    },
-    {
-        id: 'roas',
-        align: 'center',
-        label: 'ROAS',
-        render: roas => <p>{(Number(roas) * 100).toFixed() + ' %'}</p>
-    },
-];
-
-const tiktokAccounts = [
-    { name: "BGM 03", value: '7156472503018340353' },
-    { name: "BGM - Media Digital", value: '7145102062467006466' },
-    { name: "Plug Co", value: '7060636350755667969' },
-    { name: "Stacks Ads", value: '7060955335363805185' },
-    { name: "Plug 2022", value: '7063596340252573698' },
-    { name: "Pluggy", value: '7054703945205170178' },
-    { name: "New Plug", value: '7068326186375528449' }
-];
-
-const plugAccounts = [
-    { name: "Connor", value: "bearer eyJhbGciOiJIUzI1NiJ9.MTEzODQ0.AdIWT5lcL7KhJzfUUxwRxUaUbSh9dnCt-pCHWlz_f5w" },
-    { name: "Josh", value: "bearer eyJhbGciOiJIUzI1NiJ9.NTg1NTI.abImRgZCkT1k9zhTmXeLexc_QpTL3wEUFEze_IiXOvo" }
-];
 
 export default function Dashboard() {
     const [loading, setLoading] = React.useState(false);
@@ -131,6 +51,91 @@ export default function Dashboard() {
         setAccount({ ...account, [accountType]: accountContent });
     }
 
+    const handleRevenueDelete = async key => {
+        const _id = await deleteRevenue(key);
+        var index = 1;
+        setRevenues(revenues.filter(item => item._id !== _id).map(item => ({...item, no: index++})));
+    }
+    
+    const columns = [
+        {
+            id: 'no',
+            align: 'center',
+            label: 'no',
+        },
+        {
+            id: 'icon',
+            align: 'center',
+            label: '',
+            render: icon => {
+                isEmpty(icon) ? 
+                    <div /> : <img
+                        width={15}
+                        height={15}
+                        alt={`${icon}`}
+                        src={`${icon}`}
+                />}
+        },
+        {
+            id: 'name',
+            align: 'left',
+            label: 'Name',
+            columnAlign: 'left',
+            style: {
+                width: '30%',
+            },
+        },
+        {
+            id: 'revenue',
+            align: 'center',
+            label: 'Revenue',
+            render: revenue => <p>{`$${revenue.toFixed(2)}`}</p>
+        },
+        {
+            id: 'spend',
+            align: 'center',
+            label: 'Spend',
+            render: spend => <p>{`$${Number(spend).toFixed(2)}`}</p>
+        },
+        {
+            id: 'profit',
+            align: 'center',
+            label: 'Profit',
+            style: {
+                color: 'green'
+            },
+            render: profit => 
+                    <p 
+                        style={profit > 0 ? {color: 'green'} : profit < 0 ? {color: 'red'} : {color: '#fff'}}
+                    >
+                        {`$${Number(profit).toFixed(2)}`}
+                    </p>
+        },
+        {
+            id: 'roas',
+            align: 'center',
+            label: 'ROAS',
+            render: roas => <p>{(Number(roas) * 100).toFixed() + ' %'}</p>
+        },
+        {
+            id: 'delete',
+            align: 'center',
+            label: '',
+            style: {
+                width: '30px',
+                padding: '0'
+            },
+            render: (item, col) =>  
+                <Button
+                    style={{ cursor: 'pointer', margin: '0', paddin: '0' }} 
+                    onClick={() => handleRevenueDelete(col.key)}
+                >
+                    <DeleteIcon style={{color: 'red'}} />
+                </Button>
+        }
+    ];
+
+
     return (
         <Grid item container xl={8} lg={10} xs={11} justifyContent="center" margin={"auto"}>
             <Grid container item rowSpacing={1} direction="column" marginTop="50px">
@@ -155,7 +160,7 @@ export default function Dashboard() {
                                 name="plugAccount" 
                                 label="Plug Account" 
                                 onchange={handleAccountSelect} 
-                                data={plugAccounts} 
+                                data={[{name: 'All', value: 'all'}, ...plugAccounts]} 
                             />
                         </Grid>
                         <Grid container item xs={3}>
@@ -163,7 +168,7 @@ export default function Dashboard() {
                                 name="tiktokAccount" 
                                 label="Tiktok Account" 
                                 onchange={handleAccountSelect} 
-                                data={tiktokAccounts} 
+                                data={[{name: 'All', value: 'all'}, ...tiktokAccounts]} 
                             />
                         </Grid>
                         <Grid container item xs={3}>
@@ -175,7 +180,7 @@ export default function Dashboard() {
                     <BasicTable 
                         isLoading={loading} 
                         columns={columns} 
-                        data={ isEmpty(revenues) ? [] : revenues.map(item => ({...item, key: item.no}))} 
+                        data={ isEmpty(revenues) ? [] : revenues.map(item => ({...item, key: item._id}))} 
                     />
                 </Grid>
             </Grid>
