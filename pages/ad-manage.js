@@ -139,7 +139,7 @@ const AdManager = () => {
         // setState({...state, adSets: adSets, isAdLoading: false});
         // return;
 
-        if (isEmpty(state.tiktokAccount)) {
+        if (!isEmpty(state.tiktokAccount)) {
             alert('error');
             return;
         }
