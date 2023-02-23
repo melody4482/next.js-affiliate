@@ -184,7 +184,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     adgroupName: item.metrics.adgroup_name,
                 }));
             }
-            console.log(adset)
+            console.log(adSets)
 
             // if (advertiser_id === 'all') {
             //     plugAccounts.forEach(async item => {
