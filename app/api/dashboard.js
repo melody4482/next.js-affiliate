@@ -131,11 +131,11 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             ];
             var plugData;
             if (bearerToken === 'all') {
-                await plugAccounts.forEach(item => {
-                    plugData = getPlug(start, end, item.value)
+                for (const element of plugAccounts) {
+                    plugData = await getPlug(start, end, element.value)
                     mediaSources = [
                         ...mediaSources,
-                        ...plugData.data.map((item) => ({
+                        ...plugData.data.map(item => ({
                             no: index++,
                             icon: item.campaign_image_url,
                             name: item.media_name,
@@ -143,7 +143,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                             offer: item.campaign_name,
                         }))
                     ];
-                })
+                }
             } else {
                 plugData = await getPlug(start, end, bearerToken)
                 mediaSources = [
@@ -162,9 +162,8 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             index = 1;
 
             if (advertiser_id === 'all') {
-                console.log('all');
-                await tiktokAccounts.forEach(item => {
-                    tiktokData = getTiktok(start, end, item.value);
+                for (const element of tiktokAccounts) {
+                    tiktokData = getTiktok(start, end, element.value);
                     adSets = [
                         ...adSets,
                         isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
@@ -174,7 +173,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                             adgroupName: item.metrics.adgroup_name,
                         }))
                     ];
-                })
+                }
             } else {
                 tiktokData = await getTiktok(start, end, advertiser_id);
                 adSets = isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
