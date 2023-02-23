@@ -40,8 +40,8 @@ export default function Dashboard() {
 
     React.useEffect(() => {
         setDate({
-            start: dayjs(dayjs(), 'YYYY-MM-DD'),
-            end: dayjs(dayjs(), 'YYYY-MM-DD'),
+            start: dayjs(dayjs()).format('YYYY-MM-DD'),
+            end: dayjs(dayjs()).format('YYYY-MM-DD'),
         });
     }, []);
 

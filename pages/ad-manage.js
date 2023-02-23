@@ -63,10 +63,11 @@ const AdManager = () => {
     React.useEffect(() => {
         setState({
             ...state,
-            startDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-            endDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-        })
-    }, [])
+            startDate: dayjs(dayjs()).format('YYYY-MM-DD'),
+            endDate: dayjs(dayjs()).format('YYYY-MM-DD'),
+        });
+    }, []);
+    console.log(state)
 
     const handleSearchDate = (e) => {
         setState({ ...state, [e.name]: e.value })

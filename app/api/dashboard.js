@@ -119,15 +119,19 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
         .then(async data => {
             const infuseData = await getInfuse(start, end);
             var index = 1;
-            var mediaSources = [
-                ...infuseData.data.map((item) => ({
-                    no: index++,
-                    icon: '',
-                    name: item.Stat.source,
-                    revenue: parseFloat(item.Stat.payout),
-                    offer: ''
-                }))
-            ];
+            var mediaSources = [];
+            
+            if (!isEmpty(infuseData)) {
+                mediaSources = [
+                    ...infuseData.data.map((item) => ({
+                        no: index++,
+                        icon: '',
+                        name: item.Stat.source,
+                        revenue: parseFloat(item.Stat.payout),
+                        offer: ''
+                    }))
+                ];
+            }
             var plugData;
             if (bearerToken === 'all') {
                 for (const element of plugAccounts) {
