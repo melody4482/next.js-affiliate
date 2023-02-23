@@ -209,6 +209,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
 
             index = 1;
             const result = [];
+            console.log(mediaSources, adSets);
             mediaSources.forEach(item => {
                 var isMatch = data.filter(i => item.name == i.name).length !== 0 ? true : false;
                 if (isMatch) {
