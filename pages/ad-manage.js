@@ -13,6 +13,8 @@ import BasicSelect from '../app/components/BasicSelect'
 import { addRevenue, getRevenues } from '../app/api/revenue'
 import { tiktokAccounts, plugAccounts } from '../app/config/accounts'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
 const StyledButton = styled(Button)(({ theme }) => ({
     [`&`]: {
@@ -36,6 +38,9 @@ const StyledCard = styled.div`
     border: 1px solid #282727;
     width: 100%;
 `
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const AdManager = () => {
 
@@ -63,12 +68,11 @@ const AdManager = () => {
     React.useEffect(() => {
         setState({
             ...state,
-            startDate: dayjs(dayjs()).format('YYYY-MM-DD'),
-            endDate: dayjs(dayjs()).format('YYYY-MM-DD'),
+            startDate: dayjs.tz(dayjs(), "EST").format('YYYY-MM-DD'),
+            endDate: dayjs.tz(dayjs(), "EST").format('YYYY-MM-DD'),
         });
     }, []);
     console.log(state)
-
     const handleSearchDate = (e) => {
         setState({ ...state, [e.name]: e.value })
     }
