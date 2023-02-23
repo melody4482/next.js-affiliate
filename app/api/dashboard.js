@@ -163,7 +163,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
 
             if (advertiser_id === 'all') {
                 for (const element of tiktokAccounts) {
-                    tiktokData = getTiktok(start, end, element.value);
+                    tiktokData = await getTiktok(start, end, element.value);
                     adSets = [
                         ...adSets,
                         isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
