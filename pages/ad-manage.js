@@ -89,25 +89,34 @@ const AdManager = () => {
         setState({ ...state, isMediaLoading: true })
         const infuseData = await getInfuse(state.startDate, state.endDate)
         var plugData = await getPlug(state.startDate, state.endDate, state.plugAccount.id)
-        console.log(plugData);
+
         plugData = isEmpty(plugData.data) ? { data: [] } : plugData
         var index = 1;
-        var mediaSources = [
-            ...infuseData.data.map((item) => ({
-                no: index++,
-                icon: '',
-                name: item.Stat.source,
-                revenue: parseFloat(item.Stat.payout),
-                offer: ''
-            })),
-            ...plugData.data.map((item) => ({
-                no: index++,
-                icon: item.campaign_image_url,
-                name: item.media_name,
-                revenue: parseFloat(item.dollars),
-                offer: item.campaign_name,
-            })),
-        ];
+        var mediaSources = [];
+        if (!isEmpty(infuseData)) {
+            mediaSources = [
+                ...mediaSources,
+                ...infuseData.data.map((item) => ({
+                    no: index++,
+                    icon: '',
+                    name: item.Stat.source,
+                    revenue: parseFloat(item.Stat.payout),
+                    offer: ''
+                })),
+            ]
+        }
+        if (!isEmpty(plugData)) {
+            mediaSources = [
+                ...mediaSources,
+                ...plugData.data.map((item) => ({
+                    no: index++,
+                    icon: item.campaign_image_url,
+                    name: item.media_name,
+                    revenue: parseFloat(item.dollars),
+                    offer: item.campaign_name,
+                }))
+            ]
+        }
         mediaSources = await excludeConnectedRevenues('media', mediaSources);
         setState({...state, mediaSources: mediaSources, isMediaLoading: false});
     }
