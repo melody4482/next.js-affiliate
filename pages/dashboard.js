@@ -61,7 +61,7 @@ export default function Dashboard() {
         var index = 1;
         setRevenues(revenues.filter(item => item._id !== _id).map(item => ({...item, no: index++})));
     }
-    
+
     const columns = [
         {
             id: 'no',

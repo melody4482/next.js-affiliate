@@ -161,7 +161,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             var adSets = [];
             index = 1;
 
-            if (isEmpty(advertiser_id)) {
+            if (advertiser_id === 'all') {
                 tiktokAccounts.forEach(async item => {
                     tiktokData = await getTiktok(start, end, item.value);
                     adSets = [
