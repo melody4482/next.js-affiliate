@@ -223,7 +223,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                             roas: item.revenue / adset.spend,
                             profit: item.revenue - adset.spend,
                             revenue: item.revenue,
-                            spend: Number(adset).spend,
+                            spend: adset.spend,
                             offer: item.offer
                         });
                     }
