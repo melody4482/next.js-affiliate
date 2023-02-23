@@ -37,6 +37,13 @@ export default function Dashboard() {
     const [context, setContext] = useAppContext();
     const router = useRouter();
 
+    React.useEffect(() => {
+        setDate({
+            start: dayjs(dayjs(), 'YYYY-MM-DD'),
+            end: dayjs(dayjs(), 'YYYY-MM-DD'),
+        });
+    }, []);
+
     const getRevenues = async () => {
         if (isEmpty(account.tiktokAccount) || isEmpty(account.plugAccount)) {
             alert('choose account');

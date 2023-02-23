@@ -60,11 +60,11 @@ const AdManager = () => {
     const router = useRouter();
 
     React.useEffect(() => {
-        // setState({
-        //     ...state,
-        //     startDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-        //     endDate: dayjs(dayjs(), 'YYYY-MM-DD'),
-        // })
+        setState({
+            ...state,
+            startDate: dayjs(dayjs(), 'YYYY-MM-DD'),
+            endDate: dayjs(dayjs(), 'YYYY-MM-DD'),
+        })
     }, [])
 
     const handleSearchDate = (e) => {

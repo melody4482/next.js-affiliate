@@ -209,13 +209,11 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
 
             index = 1;
             const result = [];
-            console.log(mediaSources, adSets);
             mediaSources.forEach(item => {
                 var isMatch = data.filter(i => item.name == i.name).length !== 0 ? true : false;
                 if (isMatch) {
                     const revenueData = data.filter(i => item.name == i.name)[0]
                     const adset = adSets.filter(ad => ad.adgroupId == revenueData.adGroupId)[0];
-                    console.log(item, adset);
                     if (!isEmpty(adset)) {
                         result.push({
                             no: index ++,
