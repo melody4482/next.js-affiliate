@@ -147,12 +147,16 @@ const AdManager = () => {
 
         const tiktokData = await getTiktok(state.startDate, state.endDate, state.tiktokAccount.id);
         var index = 1;
-        var adSets = tiktokData.list.map((item) => ({
-            no: index ++,
-            adgroupId: item.dimensions.adgroup_id,
-            spend: item.metrics.spend,
-            adgroupName: item.metrics.adgroup_name,
-        }));
+        var adSets = [];
+        if (tiktokData) {
+            adSets = tiktokData.list.map((item) => ({
+                no: index ++,
+                adgroupId: item.dimensions.adgroup_id,
+                spend: item.metrics.spend,
+                adgroupName: item.metrics.adgroup_name,
+            }));
+        }
+        
         adSets = await excludeConnectedRevenues('tiktok', adSets);
         setState({...state, adSets: adSets, isAdLoading: false});
     }
