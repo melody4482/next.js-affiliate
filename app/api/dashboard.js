@@ -131,8 +131,8 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             ];
             var plugData;
             if (bearerToken === 'all') {
-                await plugAccounts.forEach(async item => {
-                    plugData = await getPlug(start, end, item.value)
+                await plugAccounts.forEach(item => {
+                    plugData = getPlug(start, end, item.value)
                     mediaSources = [
                         ...mediaSources,
                         ...plugData.data.map((item) => ({
@@ -163,9 +163,8 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
 
             if (advertiser_id === 'all') {
                 console.log('all');
-                await tiktokAccounts.forEach(async item => {
-                    tiktokData = await getTiktok(start, end, item.value);
-                    console.log(tiktokData);
+                await tiktokAccounts.forEach(item => {
+                    tiktokData = getTiktok(start, end, item.value);
                     adSets = [
                         ...adSets,
                         isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
