@@ -165,7 +165,7 @@ export default function Dashboard() {
             id: 'roas',
             align: 'center',
             label: 'ROAS',
-            render: roas => <P>{(Number(roas) * 100).toFixed() + ' %'}</P>
+            render: roas => <P>{(Number(roas) * 100).toFixed() === 'Infinity' ? 'Infinity' : (Number(roas) * 100).toFixed() + ' %'}</P>
         },
         {
             id: 'delete',
