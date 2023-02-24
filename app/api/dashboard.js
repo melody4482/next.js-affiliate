@@ -24,7 +24,7 @@ export const getInfuse = async (startDate, endDate) => {
  * @params {startDate, endDate}
  * @return JSON Plug Data
  */
-export const getPlug = async (startDate, endDate, bearerToken) => {
+export const getPlug = async (startDate, endDate, bearerToken, timezone = 'New_York') => {
     /**
      * @method POST
      * @desc Get Firebase Token
@@ -53,7 +53,7 @@ export const getPlug = async (startDate, endDate, bearerToken) => {
              * @desc Get Plug data by Firebase token with JSON type
              */
             return fetch(
-                `https://theplug-prod.herokuapp.com/api/v1/bqReport?start_date=${startDate}&end_date=${endDate}&timezone=America/New_York&columns=date,campaign,campaign_name,campaign_image_url,media,media_name,dollars&format=json`,
+                `https://theplug-prod.herokuapp.com/api/v1/bqReport?start_date=${startDate}&end_date=${endDate}&timezone=America/${timezone}&columns=date,campaign,campaign_name,campaign_image_url,media,media_name,dollars&format=json`,
                 {
                     method: 'GET',
                     headers: {
@@ -106,7 +106,7 @@ export const getTiktok = async (startDate, endDate, advertiser_id) => {
 }
 
 
-export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
+export const getDataByConnection = (start, end, bearerToken, advertiser_id, timezone) => {
     return fetch(
         `${proxyApi}api/revenue`,
         {
@@ -135,7 +135,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
             var plugData;
             if (bearerToken === 'all') {
                 for (const element of plugAccounts) {
-                    plugData = await getPlug(start, end, element.value)
+                    plugData = await getPlug(start, end, element.value, timezone)
                     mediaSources = [
                         ...mediaSources,
                         ...plugData.data.map(item => ({
@@ -148,7 +148,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id) => {
                     ];
                 }
             } else {
-                plugData = await getPlug(start, end, bearerToken)
+                plugData = await getPlug(start, end, bearerToken, timezone)
                 mediaSources = [
                     ...mediaSources,
                     ...plugData.data.map((item) => ({

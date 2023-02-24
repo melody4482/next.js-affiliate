@@ -38,7 +38,15 @@ export default function Dashboard() {
     const [loading, setLoading] = React.useState(false);
     const [revenues, setRevenues] = React.useState([]);
     const [date, setDate] = React.useState({ start: '2023-2-19', end: '2023-2-19' });
+    const [timezone, setTimezone] = React.useState(undefined);
     const [account, setAccount] = React.useState({ plugAccount: null, tiktokAccount: null});
+    const [total, setTotal] = React.useState({
+        no: 'total',
+        name: '',
+        revenue: 0,
+        spend: 0,
+        profit: 0,
+    })
     const [context, setContext] = useAppContext();
     const router = useRouter();
 
@@ -50,14 +58,22 @@ export default function Dashboard() {
     }, []);
 
     const getRevenues = async () => {
-        if (isEmpty(account.tiktokAccount) || isEmpty(account.plugAccount)) {
-            alert('choose account');
+        if (isEmpty(account.tiktokAccount) || isEmpty(account.plugAccount) || isEmpty(timezone)) {
+            alert('choose account or timezone');
             return;
         }
         setLoading(true);
-        const result = await getDataByConnection(date.start, date.end, account.plugAccount.id, account.tiktokAccount.id);
-        setLoading(false);
+        var result = await getDataByConnection(date.start, date.end, account.plugAccount.id, account.tiktokAccount.id, timezone);
         setRevenues(result);
+        var totalVal = total;
+        result.forEach(item => {
+            total.revenue += item.revenue;
+            total.spend += item.spend;
+            total.profit += item.profit;
+        });
+        console.log(totalVal)
+        setTotal(totalVal)
+        setLoading(false);
     }
 
     const handleSearchDate = (e) => {
@@ -66,6 +82,10 @@ export default function Dashboard() {
 
     const handleAccountSelect = (accountType, accountContent) => {
         setAccount({ ...account, [accountType]: accountContent });
+    }
+
+    const handleTimezoneSelect = (timezone, value) => {
+        setTimezone(value)
     }
 
     const handleRevenueDelete = async key => {
@@ -177,7 +197,7 @@ export default function Dashboard() {
                         </Grid>
                     </Grid>
                     <Grid container item direction={"row"} spacing={1} md={5} sm={6} xs={4}>
-                        <Grid container item xs={6}>
+                        <Grid container item xs={4}>
                             <BasicSelect
                                 name="plugAccount" 
                                 label="Plug Account" 
@@ -185,12 +205,23 @@ export default function Dashboard() {
                                 data={[{name: 'All', value: 'all'}, ...plugAccounts]} 
                             />
                         </Grid>
-                        <Grid container item xs={6}>
+                        <Grid container item xs={4}>
                             <BasicSelect 
                                 name="tiktokAccount" 
                                 label="Tiktok Account" 
                                 onchange={handleAccountSelect} 
                                 data={[{name: 'All', value: 'all'}, ...tiktokAccounts]} 
+                            />
+                        </Grid>
+                        <Grid container item xs={4}>
+                            <BasicSelect 
+                                name="selectTimezone"
+                                label="Timezone"
+                                onchange={handleTimezoneSelect}
+                                data={[
+                                    { name: 'New York', value: 'New_York' },
+                                    { name: 'Chicago', value: 'Chicago' }
+                                ]}
                             />
                         </Grid>
                     </Grid>
