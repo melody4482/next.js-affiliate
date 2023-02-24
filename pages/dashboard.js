@@ -59,6 +59,7 @@ export default function Dashboard() {
 
     const getRevenues = async () => {
         if (isEmpty(account.tiktokAccount) || isEmpty(account.plugAccount) || isEmpty(timezone)) {
+            console.log(timezone)
             alert('choose account or timezone');
             return;
         }
@@ -84,8 +85,8 @@ export default function Dashboard() {
         setAccount({ ...account, [accountType]: accountContent });
     }
 
-    const handleTimezoneSelect = (name, timezone) => {
-        setTimezone(timezone.value)
+    const handleTimezoneSelect = (name, tz) => {
+        setTimezone(tz.id);
     }
 
     const handleRevenueDelete = async key => {
