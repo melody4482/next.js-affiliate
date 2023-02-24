@@ -41,16 +41,12 @@ export default function Dashboard() {
     const [timezone, setTimezone] = React.useState(undefined);
     const [account, setAccount] = React.useState({ plugAccount: null, tiktokAccount: null});
     const [total, setTotal] = React.useState({
-        no: '',
-		icon: '',
-        name: '',
+        name: 'Total',
         revenue: 0,
         spend: 0,
         profit: 0,
 		roas: 0
-    })
-    const [context, setContext] = useAppContext();
-    const router = useRouter();
+    });
 
     React.useEffect(() => {
         setDate({
@@ -70,12 +66,12 @@ export default function Dashboard() {
 		console.log(result);
         setRevenues(result);
         var totalVal = total;
-        // result.forEach(item => {
-        //     totalVal.revenue += Number(item.revenue).toFixed(2);
-        //     totalVal.spend = Number(item.spend).toFixed(2) + Number(totalVal.spend);
-        //     totalVal.profit += Number(item.profit).toFixed(2);
-        // });
-		// totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
+        result.forEach(item => {
+            totalVal.revenue += Number(item.revenue).toFixed(2);
+            // totalVal.spend = Number(item.spend).toFixed(2) + Number(totalVal.spend);
+            totalVal.profit += Number(item.profit).toFixed(2);
+        });
+		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
         console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
