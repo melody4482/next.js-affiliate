@@ -63,18 +63,16 @@ export default function Dashboard() {
         }
         setLoading(true);
         var result = await getDataByConnection(date.start, date.end, account.plugAccount.id, account.tiktokAccount.id, timezone);
-        var totalVal = total;
-		
-        var totalResult = result.map(item => item).reduce((a, b) => {
-            return {
-				revenue: Number(a.revenue) + Number(b.revenue),
-            	spend: Number(a.spend) + Number(b.spend),
-            	profit: Number(a.profit) + Number(b.profit)
-			}
-        });
-		console.log(totalResult)
-		totalResult.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
+		console.log(result);
         setRevenues(result);
+        var totalVal = total;
+        result.forEach(item => {
+            totalVal.revenue += Number(item.revenue);
+            totalVal.spend += Number(item.spend);
+            totalVal.profit += Number(item.profit);
+        });
+		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend);
+        console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
     }
