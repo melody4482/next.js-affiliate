@@ -64,13 +64,8 @@ export default function Dashboard() {
         setLoading(true);
         var result = await getDataByConnection(date.start, date.end, account.plugAccount.id, account.tiktokAccount.id, timezone);
         var totalVal = total;
-		var totalResult = {
-			revenue: 0,
-			spend: 0,
-			profit: 0,
-			roas: 0
-		};
-        totalResult = result.map(item => item).reduce((a, b) => {
+		
+        var totalResult = result.map(item => item).reduce((a, b) => {
             return {
 				revenue: Number(a.revenue).toFixed(2) + Number(b.revenue).toFixed(2),
             	spend: Number(a.spend).toFixed(2) + Number(b.spend).toFixed(2),
