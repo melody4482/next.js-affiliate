@@ -71,7 +71,10 @@ export default function Dashboard() {
             totalVal.spend += Number(item.spend);
             totalVal.profit += Number(item.profit);
         });
-		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend);
+		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
+		totalVal.revenue = totalVal.revenue.toFixed(2);
+		totalVal.spend = totalVal.spend.toFixed(2);
+		totalVal.profit = totalVal.profit.toFixed(2);
         console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
