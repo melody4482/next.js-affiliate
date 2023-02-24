@@ -84,8 +84,8 @@ export default function Dashboard() {
         setAccount({ ...account, [accountType]: accountContent });
     }
 
-    const handleTimezoneSelect = (timezone, value) => {
-        setTimezone(value)
+    const handleTimezoneSelect = (name, timezone) => {
+        setTimezone(timezone.value)
     }
 
     const handleRevenueDelete = async key => {
