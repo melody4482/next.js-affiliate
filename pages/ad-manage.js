@@ -84,7 +84,7 @@ const AdManager = () => {
             state.mediaSources.forEach(item => {
                 state.adSets.forEach(ad => {
                     if (ad.adgroupName === item.name) {
-                        if (data.filter(d => d.name == item.name).length === 0)
+                        if (state.data.filter(d => d.name == item.name).length === 0)
                             connected.push({...item, ...ad, no: index ++});
                     }
                 });
