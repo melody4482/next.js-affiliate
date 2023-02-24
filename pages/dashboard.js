@@ -40,13 +40,14 @@ export default function Dashboard() {
     const [date, setDate] = React.useState({ start: '2023-2-19', end: '2023-2-19' });
     const [timezone, setTimezone] = React.useState(undefined);
     const [account, setAccount] = React.useState({ plugAccount: null, tiktokAccount: null});
-    const [total, setTotal] = React.useState({
+	const initialTotal = {
         name: 'Total',
         revenue: 0,
         spend: 0,
         profit: 0,
 		roas: 0
-    });
+    };
+    const [total, setTotal] = React.useState(initialTotal);
 
     React.useEffect(() => {
         setDate({
@@ -62,8 +63,8 @@ export default function Dashboard() {
             return;
         }
         setLoading(true);
+		setTotal(initialTotal);
         var result = await getDataByConnection(date.start, date.end, account.plugAccount.id, account.tiktokAccount.id, timezone);
-		console.log(result);
         setRevenues(result);
         var totalVal = total;
         result.forEach(item => {
@@ -75,7 +76,6 @@ export default function Dashboard() {
 		totalVal.revenue = totalVal.revenue.toFixed(2);
 		totalVal.spend = totalVal.spend.toFixed(2);
 		totalVal.profit = totalVal.profit.toFixed(2);
-        console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
     }

@@ -104,7 +104,7 @@ export default function CustomizedTables(props) {
                         }
                         {!isEmpty(props.data) &&
                             <TableRow>
-                                <StyledTableCell colSpan={3} align="center">{`Total`}</StyledTableCell>
+                                <StyledTableCell colSpan={2} align="center">{`Total`}</StyledTableCell>
                                 <StyledTableCell align="center">{`$ ${props.totalRow.revenue}`}</StyledTableCell>
                                 <StyledTableCell align="center">{`$ ${props.totalRow.spend}`}</StyledTableCell>
                                 <StyledTableCell align="center">{`$ ${props.totalRow.profit}`}</StyledTableCell>
