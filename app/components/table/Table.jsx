@@ -21,15 +21,6 @@ export default function CustomizedTables(props) {
         pageSize: 10,
     }
     const [state, setState] = React.useState(initialState);
-    const [data, setData] = React.useState([]);
-
-    React.useEffect(() => {
-        var datasource = data;
-        if (!isEmpty(props.totalRow)) {
-            datasource.push(props.totalRow);
-        }
-        setData(datasource);
-    }, [props.data, props.totalRow]);
 
     const handlePageChange = target => {
         setState({...state, current: target});
@@ -73,8 +64,8 @@ export default function CustomizedTables(props) {
                                     />
                                 </StyledTableCell>
                             </TableRow>
-                             : !isEmpty(data) ?
-                                data.map(item => 
+                             : !isEmpty(props.data) ?
+                                props.data.map(item => 
                                     <TableRow key={item.key} hover>
                                         {props.columns.map(col => 
                                             <StyledTableCell
@@ -111,11 +102,20 @@ export default function CustomizedTables(props) {
                                     </StyledTableCell>
                                 </TableRow>
                         }
+                        {!isEmpty(props.data) &&
+                            <TableRow>
+                                <StyledTableCell colSpan={2} align="center">{`Total`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$ ${props.totalRow.revenue}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$ ${props.totalRow.spend}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$ ${props.totalRow.profit}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`${props.totalRow.roas} %`}</StyledTableCell>
+                            </TableRow>
+                        }
                         {/*<TableRow>
                             <StyledTableCell colSpan={8} style={{width: '100%'}}>
                                 <TablePagination
                                     current={state.current}
-                                    total={data.length}
+                                    total={props.data.length}
                                     pageSize={state.pageSize}
                                     onPageChange={handlePageChange}
                                 />
