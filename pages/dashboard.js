@@ -71,9 +71,9 @@ export default function Dashboard() {
         setRevenues(result);
         var totalVal = total;
         result.forEach(item => {
-            total.revenue += item.revenue;
-            total.spend += Number(item.spend).toFixed(2);
-            total.profit += item.profit;
+            totalVal.revenue += item.revenue;
+            totalVal.spend += Number(item.spend).toFixed(2);
+            totalVal.profit += item.profit;
         });
 		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
         console.log(totalVal)
