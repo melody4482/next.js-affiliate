@@ -70,12 +70,12 @@ export default function Dashboard() {
 		console.log(result);
         setRevenues(result);
         var totalVal = total;
-        result.forEach(item => {
-            totalVal.revenue += Number(item.revenue).toFixed(2);
-            totalVal.spend = Number(item.spend).toFixed(2) + Number(totalVal.spend);
-            totalVal.profit += Number(item.profit).toFixed(2);
-        });
-		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
+        // result.forEach(item => {
+        //     totalVal.revenue += Number(item.revenue).toFixed(2);
+        //     totalVal.spend = Number(item.spend).toFixed(2) + Number(totalVal.spend);
+        //     totalVal.profit += Number(item.profit).toFixed(2);
+        // });
+		// totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
         console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
