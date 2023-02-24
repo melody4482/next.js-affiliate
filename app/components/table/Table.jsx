@@ -103,10 +103,18 @@ export default function CustomizedTables(props) {
                                 </TableRow>
                         }
                         {!isEmpty(props.data) &&
-                            <TableRow>
+                            <TableRow
+                                style={{ backgroundColor: '#f2f2f2', color: '#333'}}
+                            >
                                 <StyledTableCell colSpan={3} align="center">{`Total`}</StyledTableCell>
                                 <StyledTableCell align="center">{`$ ${props.totalRow.revenue}`}</StyledTableCell>
-                                <StyledTableCell align="center">{`$ ${props.totalRow.spend}`}</StyledTableCell>
+                                <StyledTableCell 
+                                    align="center" 
+                                    style={props.totalRow.spend < 0 ? 
+                                        {color: 'red'} : 
+                                        props.totalRow.spend > 0 ? 
+                                        { color: 'green'} : 
+                                        { color: 'white'}}>{`$ ${props.totalRow.spend}`}</StyledTableCell>
                                 <StyledTableCell align="center">{`$ ${props.totalRow.profit}`}</StyledTableCell>
                                 <StyledTableCell align="center">{`${props.totalRow.roas} %`}</StyledTableCell>
                             </TableRow>
