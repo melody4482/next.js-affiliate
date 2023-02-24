@@ -67,9 +67,9 @@ export default function Dashboard() {
 		
         var totalResult = result.map(item => item).reduce((a, b) => {
             return {
-				revenue: Number(a.revenue).toFixed(2) + Number(b.revenue).toFixed(2),
-            	spend: Number(a.spend).toFixed(2) + Number(b.spend).toFixed(2),
-            	profit: Number(a.profit).toFixed(2) + Number(b.profit).toFixed(2)
+				revenue: Number(a.revenue) + Number(b.revenue),
+            	spend: Number(a.spend) + Number(b.spend),
+            	profit: Number(a.profit) + Number(b.profit)
 			}
         });
 		console.log(totalResult)
