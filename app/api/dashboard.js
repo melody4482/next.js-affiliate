@@ -172,7 +172,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id, time
                         ...isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
                             no: index ++,
                             adgroupId: item.dimensions.adgroup_id,
-                            spend: item.metrics.spend,
+                            spend: Number(item.metrics.spend),
                             adgroupName: item.metrics.adgroup_name,
                         }))
                     ];
@@ -182,7 +182,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id, time
                 adSets = isEmpty(tiktokData) ? [] : tiktokData.list.map((item) => ({
                     no: index ++,
                     adgroupId: item.dimensions.adgroup_id,
-                    spend: item.metrics.spend,
+                    spend: Number(item.metrics.spend),
                     adgroupName: item.metrics.adgroup_name,
                 }));
             }
@@ -194,7 +194,6 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id, time
                 if (isMatch) {
                     const revenueData = data.filter(i => item.name == i.name)[0]
                     const adset = adSets.filter(ad => ad.adgroupId == revenueData.adGroupId)[0];
-                    console.log(item.revenue, adset.spend, item.revenue / adset.spend);
                     if (!isEmpty(adset)) {
                         result.push({
                             no: index ++,
