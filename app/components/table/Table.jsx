@@ -20,7 +20,16 @@ export default function CustomizedTables(props) {
         current: 1,
         pageSize: 10,
     }
-    const [state, setState] = React.useState(initialState)
+    const [state, setState] = React.useState(initialState);
+    const [data, setData] = React.useState([]);
+
+    React.useEffect(() => {
+        var datasource = data;
+        if (!isEmpty(props.totalRow)) {
+            datasource.push(props.totalRow);
+        }
+        setData(datasource);
+    }, [props.data, props.totalRow]);
 
     const handlePageChange = target => {
         setState({...state, current: target});
@@ -29,7 +38,7 @@ export default function CustomizedTables(props) {
     var index = 1;
 
     return (
-        <div style={{ width: '100%', marginBottom: '100px   ' }}>
+        <div style={{ width: '100%', marginBottom: '100px' }}>
             <StyledTableContainer>
                 <Table>
                     <TableHead>
@@ -64,8 +73,8 @@ export default function CustomizedTables(props) {
                                     />
                                 </StyledTableCell>
                             </TableRow>
-                             : !isEmpty(props.data) ?
-                                props.data.map(item => 
+                             : !isEmpty(data) ?
+                                data.map(item => 
                                     <TableRow key={item.key} hover>
                                         {props.columns.map(col => 
                                             <StyledTableCell
@@ -106,7 +115,7 @@ export default function CustomizedTables(props) {
                             <StyledTableCell colSpan={8} style={{width: '100%'}}>
                                 <TablePagination
                                     current={state.current}
-                                    total={props.data.length}
+                                    total={data.length}
                                     pageSize={state.pageSize}
                                     onPageChange={handlePageChange}
                                 />
@@ -121,5 +130,6 @@ export default function CustomizedTables(props) {
 
 CustomizedTables.propTypes = {
   columns: PropTypes.array.isRequired,
-  data: PropTypes.array
+  data: PropTypes.array,
+  totalRow: PropTypes.object
 }

@@ -41,11 +41,13 @@ export default function Dashboard() {
     const [timezone, setTimezone] = React.useState(undefined);
     const [account, setAccount] = React.useState({ plugAccount: null, tiktokAccount: null});
     const [total, setTotal] = React.useState({
-        no: 'total',
+        no: '',
+		icon: '',
         name: '',
         revenue: 0,
         spend: 0,
         profit: 0,
+		roas: 0
     })
     const [context, setContext] = useAppContext();
     const router = useRouter();
@@ -69,9 +71,10 @@ export default function Dashboard() {
         var totalVal = total;
         result.forEach(item => {
             total.revenue += item.revenue;
-            total.spend += item.spend;
+            total.spend += Number(item.spend).toFixed(2);
             total.profit += item.profit;
         });
+		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
         console.log(totalVal)
         setTotal(totalVal)
         setLoading(false);
@@ -231,11 +234,12 @@ export default function Dashboard() {
                     </Grid>
                 </Grid>
                 <Grid item container>
-                    <BasicTable 
-                        isLoading={loading} 
-                        columns={columns} 
-                        data={ isEmpty(revenues) ? [] : revenues.map(item => ({...item, key: item._id}))} 
-                    />
+					<BasicTable 
+						isLoading={loading} 
+						columns={columns} 
+						data={ isEmpty(revenues) ? [] : revenues.map(item => ({...item, key: item._id}))}
+						totalRow={total}
+					/>
                 </Grid>
             </Grid>
         </Grid>

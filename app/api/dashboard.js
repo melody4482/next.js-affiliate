@@ -187,29 +187,6 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id, time
                 }));
             }
 
-            // if (advertiser_id === 'all') {
-            //     plugAccounts.forEach(async item => {
-            //         tiktokData = await getPlug(start, end, item.value);
-            //         adSets = [
-            //             ...adSets,
-            //             isEmpty(tiktokData) ? [] : tiktokData.data.map((item) => ({
-            //                 no: index ++,
-            //                 adgroupId: item.media,
-            //                 spend: parseFloat(item.dollars),
-            //                 adgroupName: item.campaign_name,
-            //             }))
-            //         ];
-            //     })
-            // } else {
-            //     tiktokData = await getPlug(start, end, bearerToken);
-            //     adSets = isEmpty(tiktokData) ? [] : tiktokData.data.map((item) => ({
-            //         no: index ++,
-            //         adgroupId: item.media,
-            //         spend: parseFloat(item.dollars),
-            //         adgroupName: item.campaign_name,
-            //     }));
-            // }
-
             index = 1;
             const result = [];
             mediaSources.forEach(item => {
@@ -217,6 +194,7 @@ export const getDataByConnection = (start, end, bearerToken, advertiser_id, time
                 if (isMatch) {
                     const revenueData = data.filter(i => item.name == i.name)[0]
                     const adset = adSets.filter(ad => ad.adgroupId == revenueData.adGroupId)[0];
+                    console.log(item.revenue, adset.spend, item.revenue / adset.spend);
                     if (!isEmpty(adset)) {
                         result.push({
                             no: index ++,
