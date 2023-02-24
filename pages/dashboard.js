@@ -78,7 +78,7 @@ export default function Dashboard() {
             totalVal.spend += Number(item.spend);
             totalVal.profit += Number(item.profit);
         });
-		totalVal.roas = parseFloat(totalVal.profit / totalVal.spend).toFixed(2);
+		totalVal.roas = parseFloat(totalVal.revenue / totalVal.spend).toFixed(2);
 		totalVal.revenue = Number(totalVal.revenue).toFixed(2);
 		totalVal.spend = Number(totalVal.spend).toFixed(2);
 		totalVal.profit = Number(totalVal.profit).toFixed(2);

@@ -108,14 +108,15 @@ export default function CustomizedTables(props) {
                             >
                                 <StyledTableCell style={{color: '#333'}} colSpan={3} align="center">{`Total`}</StyledTableCell>
                                 <StyledTableCell style={{color: '#333'}} align="center">{`$ ${props.totalRow.revenue}`}</StyledTableCell>
+                                <StyledTableCell style={{color: '#333'}} align="center">{`$ ${props.totalRow.spend}`}</StyledTableCell>
                                 <StyledTableCell 
-                                    align="center" 
+                                    align="center"
                                     style={props.totalRow.spend < 0 ? 
                                         {color: 'red'} : 
                                         props.totalRow.spend > 0 ? 
                                         { color: 'green'} : 
-                                        { color: '#fff'}}>{`$ ${props.totalRow.spend}`}</StyledTableCell>
-                                <StyledTableCell style={{color: '#333'}} align="center">{`$ ${props.totalRow.profit}`}</StyledTableCell>
+                                        { color: '#fff'}}
+                                >{`$ ${props.totalRow.profit}`}</StyledTableCell>
                                 <StyledTableCell style={{color: '#333'}} align="center">{`${Number(props.totalRow.roas) * 100} %`}</StyledTableCell>
                                 <StyledTableCell style={{color: '#333'}} align="center"></StyledTableCell>
                             </TableRow>
